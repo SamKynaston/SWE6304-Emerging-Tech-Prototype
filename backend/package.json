@@ -9,7 +9,7 @@
   "scripts": {
     "dev": "tsx watch server.ts",
     "build": "tsc",
-    "start": "node ./dist/server.js",
+    "start:users": "node dist/services/users/user.index.js",
     "test": "jest"
   },
   
