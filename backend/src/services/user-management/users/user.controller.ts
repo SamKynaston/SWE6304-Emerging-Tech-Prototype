@@ -1,12 +1,16 @@
 // Express
 import { Request, Response } from "express";
 
+// Type
+import { User } from "@prototype/types";
+
 // Model
-import { User } from "./user.model";
+import { UserModel } from "./user.model";
 
 export const GET_ALL_USERS = async ( Req: Request, Res: Response ) => {
     try {
-        const users = await User.findAll()
+        const users: User[] = await UserModel.findAll();
+
         return Res.status(201).json({ body: users, success: true })
     } catch {
         return Res.status(500).json({ body: null, success: false })
