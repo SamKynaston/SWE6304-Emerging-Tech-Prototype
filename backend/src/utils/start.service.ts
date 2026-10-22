@@ -5,7 +5,7 @@ import cors from "cors";
 import session from "express-session";
 import cookieParser from "cookie-parser";
 
-export async function initialiseService(serviceName: string, basePath: string, routes: Router) : Promise<void> {
+export async function initialiseService(serviceName: string, basePath: string, routes: Router, sampleData: () => Promise<void>) : Promise<void> {
     const app: Express.Application = Express();
     
     //
@@ -29,12 +29,12 @@ export async function initialiseService(serviceName: string, basePath: string, r
     // If in development, set cors origin so local ips work
     if (process.env.ENVIRONMENT === "DEVELOPMENT") {
         app.use(cors({
-        origin: (origin, callback) => {
-            if (!origin) return callback(null, true);
+            origin: (origin, callback) => {
+                if (!origin) return callback(null, true);
 
-            return callback(null, origin);
-        },
-        credentials: true
+                return callback(null, origin);
+            },
+            credentials: true
         }));
     } else {
         // Otherwise, expect requests from a specified domain
@@ -48,7 +48,10 @@ export async function initialiseService(serviceName: string, basePath: string, r
     //  Database
     //
     await sequelize.authenticate();
-    await sequelize.sync({ force: true });
+
+    if (process.env.ENVIRONMENT === "DEVELOPMENT") {
+        await sampleData()
+    }
     
     // 
     //  Listener
