@@ -1,6 +1,6 @@
 services:
 
-  # Database
+  # Databases
   db:
     image: postgres:15
     env_file:
@@ -9,6 +9,7 @@ services:
       - "5432:5432"
     volumes:
       - /var/lib/postgresql/data
+      - ./docker/postgres/init.sql:/docker-entrypoint-initdb.d/01-init.sql:ro
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres"]
       interval: 5s
@@ -23,6 +24,8 @@ services:
     command: ["npm", "run", "start:users"]
     env_file:
       - .env
+    environment:
+      - POSTGRES_DB=users
     depends_on:
       db:
         condition: service_healthy

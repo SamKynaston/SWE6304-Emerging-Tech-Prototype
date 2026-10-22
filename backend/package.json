@@ -12,7 +12,6 @@
     "start:users": "node dist/services/users/user.index.js",
     "test": "jest"
   },
-  
   "dependencies": {
     "@prototype/types": "file:../types",
     "@types/express-session": "^1.18.2",
@@ -22,13 +21,11 @@
     "express": "^5.2.1",
     "express-session": "^1.19.0",
     "jsonwebtoken": "^9.0.3",
-    "pg": "^8.17.2",
-    "pg-hstore": "^2.3.4",
-    "sequelize": "^6.37.7",
+    "pg": "^8.23.1",
+    "sequelize": "^6.37.8",
     "ts-node": "^10.9.2",
     "zod": "^4.3.6"
   },
-
   "devDependencies": {
     "@babel/core": "^7.29.0",
     "@babel/preset-env": "^7.29.2",

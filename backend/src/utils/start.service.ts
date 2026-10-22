@@ -1,12 +1,17 @@
 import Express, { type Router } from "express";
+import { sequelize } from "./start.database";
 
 import cors from "cors";
 import session from "express-session";
 import cookieParser from "cookie-parser";
 
-export function initialiseService(serviceName: string, basePath: string, routes: Router): void {
+export async function initialiseService(serviceName: string, basePath: string, routes: Router) : Promise<void> {
     const app: Express.Application = Express();
     
+    //
+    // Middleware
+    //
+
     // Use the cookieParser middleware in order to ensure cookie-based controllers work
     app.use(cookieParser());
     app.use(
@@ -39,6 +44,15 @@ export function initialiseService(serviceName: string, basePath: string, routes:
         }));
     }
 
+    //
+    //  Database
+    //
+    await sequelize.authenticate();
+    await sequelize.sync({ force: true });
+    
+    // 
+    //  Listener
+    //
     const port = Number(process.env.PORT ?? 3000);
     app.listen(port, () => {
         console.log(`${serviceName} listening on port ${port}`);
