@@ -1,4 +1,4 @@
-import { sequelize } from "../../utils/start.database";
+import { sequelize } from "../../../utils/start.database";
 import { User } from "./user.model";
 
 export async function seedSampleData() {
