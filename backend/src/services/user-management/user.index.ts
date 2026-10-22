@@ -1,4 +1,4 @@
-import routes from "./users/user.routes";
+import routes from "./user.routes";
 import { initialiseService } from "../../utils/start.service";
 import { seedSampleData } from "./users/users.sample";
 
