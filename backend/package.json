@@ -14,7 +14,7 @@
   },
   
   "dependencies": {
-    "@bookwebapp/types": "file:../types",
+    "@prototype/types": "file:../types",
     "@types/express-session": "^1.18.2",
     "bcrypt": "^6.0.0",
     "cookie-parser": "^1.4.7",

@@ -199,7 +199,7 @@ const config: Config = {
   preset: "ts-jest",
   testEnvironment: "node",
   moduleNameMapper: {
-    "^@bookwebapp/types$": "<rootDir>/../types/src/index.ts"  
+    "^@prototype/types$": "<rootDir>/../types/src/index.ts"  
   },
 };
 
