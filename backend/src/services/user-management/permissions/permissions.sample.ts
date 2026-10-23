@@ -1,5 +1,5 @@
 import { sequelize } from "../../../utils/start.database";
-import { RoleModel } from "./Role.model.ts";
+import { RoleModel } from "./role.model";
 
 export async function seedSampleRoleData() {
     await sequelize.sync({ force: true });
