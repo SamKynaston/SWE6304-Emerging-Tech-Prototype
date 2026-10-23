@@ -10,8 +10,9 @@ import { UserModel } from "./user.model";
 export const GET_ALL_USERS = async ( Req: Request, Res: Response ) => {
     try {
         const users: User[] = await UserModel.findAll();
+        const response = Req.body && Req.body.response 
 
-        return Res.status(201).json({ body: users, success: true })
+        return Res.status(201).json({ body: users, response: response, success: true })
     } catch {
         return Res.status(500).json({ body: null, success: false })
     }

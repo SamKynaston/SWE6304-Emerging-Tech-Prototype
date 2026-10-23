@@ -24,6 +24,7 @@ export async function initialiseService(serviceName: string, basePath: string, r
 
     // Automatically set all requests to json
     app.use(Express.json());
+    
     app.use(basePath, routes)
 
     // If in development, set cors origin so local ips work
