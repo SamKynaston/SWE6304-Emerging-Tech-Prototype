@@ -1,11 +1,9 @@
 import Express, { type Router } from "express";
-import { sequelize } from "./start.database";
-
 import cors from "cors";
 import session from "express-session";
 import cookieParser from "cookie-parser";
 
-export async function initialiseService(serviceName: string, basePath: string, routes: Router, sampleData: () => Promise<void>) : Promise<void> {
+export async function initialiseService(basePath: string, routes: Router) : Promise<void> {
     const app: Express.Application = Express();
     
     //
@@ -44,21 +42,12 @@ export async function initialiseService(serviceName: string, basePath: string, r
         credentials: true
         }));
     }
-
-    //
-    //  Database
-    //
-    await sequelize.authenticate();
-
-    if (process.env.ENVIRONMENT === "DEVELOPMENT") {
-        await sampleData()
-    }
     
     // 
     //  Listener
     //
     const port = Number(process.env.PORT ?? 3000);
     app.listen(port, () => {
-        console.log(`${serviceName} listening on port ${port}`);
+        console.log(`Service listening on port ${port}`);
     });
 }
