@@ -16,7 +16,7 @@ RoleModel.init(
       primaryKey: true,
     },
 
-    string: {
+    name: {
       type: DataTypes.STRING,
       allowNull: false,
     }
@@ -24,9 +24,3 @@ RoleModel.init(
 
   { sequelize, modelName: "Role", tableName: "roles",},
 )
-
-
-RoleModel.hasMany(UserModel, {
-  foreignKey: "roleId",
-  as: "users",
-});

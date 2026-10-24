@@ -1,13 +1,8 @@
-import Express, { Request, Response } from "express";
+import Express from "express";
+import { GET_ALL_ROLES } from "./permissions.controller";
 
 const router = Express.Router();
 
-router.get("/", async ( Req: Request, Res: Response ) => {
-    try {
-        return Res.status(201).json({ body: "IN DEVELOPMENT", success: true })
-    } catch {
-        return Res.status(500).json({ body: null, success: false })
-    }
-})
+router.get("/", GET_ALL_ROLES)
 
 export default router;

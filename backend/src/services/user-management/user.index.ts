@@ -22,6 +22,7 @@ async function start() {
     // Database Configuration
     //
     if (process.env.ENVIRONMENT === "DEVELOPMENT") {
+        await sequelize.sync({force: true})
         await seedSampleRoleData()
         await seedSampleUserData()
     }

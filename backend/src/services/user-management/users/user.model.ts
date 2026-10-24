@@ -10,6 +10,7 @@ export class UserModel extends Model implements User {
   declare name: string;
   declare password: string;
   declare must_reset_password: Boolean;
+  declare dob: Date;
 
   declare setRoles: BelongsToManyAddAssociationsMixin<RoleModel, number>; 
   declare addRole: BelongsToManyAddAssociationMixin<RoleModel, number>;
@@ -40,6 +41,11 @@ UserModel.init(
       allowNull: false,
     },
 
+    dob: {
+      type: DataTypes.DATE,
+      allowNull: false,
+    },
+
     must_reset_password: {
       type: DataTypes.BOOLEAN,
       defaultValue: false,
@@ -65,10 +71,3 @@ UserModel.init(
     },
   },
 )
-
-UserModel.belongsTo(RoleModel, {
-  foreignKey: "roleId",
-  as: "role",
-  onDelete: "RESTRICT",
-  onUpdate: "CASCADE",
-});
