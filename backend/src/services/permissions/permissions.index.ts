@@ -1,7 +1,6 @@
 import { Router } from "express";
 import permissionRoutes from "./permission.routes";
 import { initialiseService } from "../../utils/start.service";
-import { seedSampleRoleData } from "./permissions.sample";
 import { sequelize } from "../../utils/start.database";
 
 async function start() {
@@ -14,13 +13,6 @@ async function start() {
     combinedRoutes.use("/roles", permissionRoutes);
 
     await initialiseService("/v1", combinedRoutes)
-
-    //
-    // Database Configuration
-    //
-    if (process.env.ENVIRONMENT === "DEVELOPMENT") {
-        await seedSampleRoleData()
-    }
 }
 
 start()

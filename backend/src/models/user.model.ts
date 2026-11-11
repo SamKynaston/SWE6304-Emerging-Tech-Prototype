@@ -1,4 +1,10 @@
-import { DataTypes, Model, CreationOptional, BelongsToManyHasAssociationMixin, BelongsToManyAddAssociationsMixin, BelongsToManyRemoveAssociationMixin, BelongsToManyAddAssociationMixin } from "sequelize";
+import {
+  BelongsToSetAssociationMixin,
+  CreationOptional,
+  DataTypes,
+  ForeignKey,
+  Model,
+} from "sequelize";
 import { sequelize } from "../utils/start.database";
 import { User } from "@prototype/types";
 import { RoleModel } from "./role.model";
@@ -11,11 +17,9 @@ export class UserModel extends Model implements User {
   declare password: string;
   declare must_reset_password: Boolean;
   declare dob: Date;
+  declare roleId: ForeignKey<RoleModel["id"]>;
 
-  declare setRoles: BelongsToManyAddAssociationsMixin<RoleModel, number>; 
-  declare addRole: BelongsToManyAddAssociationMixin<RoleModel, number>;
-  declare removeRole: BelongsToManyAddAssociationMixin<RoleModel, number>;
-  declare hasRole: BelongsToManyHasAssociationMixin<RoleModel, number>;
+  declare setRole: BelongsToSetAssociationMixin<RoleModel, number>;
 }
 
 UserModel.init(

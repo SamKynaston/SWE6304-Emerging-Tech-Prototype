@@ -1,10 +1,19 @@
 import "../models/associations";
 import { sequelize } from "./start.database";
+import { seedSampleData } from "../models/sample";
 
 async function syncDatabase(): Promise<void> {
     try {
         await sequelize.authenticate();
         await sequelize.sync();
+
+
+        //
+        // Database Configuration
+        //
+        if (process.env.ENVIRONMENT === "DEVELOPMENT") {
+            await seedSampleData()
+        }
     } finally {
         await sequelize.close();
     }
