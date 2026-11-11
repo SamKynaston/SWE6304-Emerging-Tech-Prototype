@@ -1,4 +1,4 @@
-import { UserModel } from "./user.model";
+import { UserModel } from "../../../models/user.model";
 
 export async function seedSampleUserData() {
     await UserModel.bulkCreate([

@@ -10,6 +10,7 @@
     "dev": "tsx watch server.ts",
     "build": "tsc",
     "start:users": "node dist/services/user-management/user.index.js",
+    "start:chat": "node dist/services/chat/chat.index.js",
     "test": "jest"
   },
   "dependencies": {

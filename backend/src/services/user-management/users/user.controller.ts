@@ -5,7 +5,7 @@ import { Request, Response } from "express";
 import { User } from "@prototype/types";
 
 // Model
-import { UserModel } from "./user.model";
+import { UserModel } from "../../../models/user.model";
 
 export const GET_ALL_USERS = async ( Req: Request, Res: Response ) => {
     try {

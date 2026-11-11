@@ -1,8 +1,8 @@
 import { DataTypes, Model, CreationOptional, BelongsToManyHasAssociationMixin, BelongsToManyAddAssociationsMixin, BelongsToManyRemoveAssociationMixin, BelongsToManyAddAssociationMixin } from "sequelize";
-import { sequelize } from "../../../utils/start.database";
+import { sequelize } from "../utils/start.database";
 import { User } from "@prototype/types";
-import { RoleModel } from "../permissions/role.model";
-import { hashPassword } from "../../../utils/password";
+import { RoleModel } from "./role.model";
+import { hashPassword } from "../utils/password";
 
 export class UserModel extends Model implements User {
   declare id: CreationOptional<number>;

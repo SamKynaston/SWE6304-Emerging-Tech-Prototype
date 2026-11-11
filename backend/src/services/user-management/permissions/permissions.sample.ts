@@ -1,4 +1,4 @@
-import { RoleModel } from "./role.model";
+import { RoleModel } from "../../../models/role.model";
 
 export async function seedSampleRoleData() {
     await RoleModel.bulkCreate([

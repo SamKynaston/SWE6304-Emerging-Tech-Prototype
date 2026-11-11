@@ -1,5 +1,5 @@
-import { UserModel } from "./users/user.model";
-import { RoleModel } from "./permissions/role.model";
+import { UserModel } from "./user.model";
+import { RoleModel } from "./role.model";
 
 UserModel.belongsTo(RoleModel, {
   foreignKey: "roleId",
