@@ -1,10 +1,9 @@
 import { Router } from "express";
-import userRoutes from "./users/user.routes";
-import permissionRoutes from "./permissions/permission.routes";
+import userRoutes from "./user.routes";
 import { initialiseService } from "../../utils/start.service";
-import { seedSampleUserData } from "./users/users.sample";
-import { seedSampleRoleData } from "./permissions/permissions.sample";
+import { seedSampleUserData } from "./users.sample";
 import { sequelize } from "../../utils/start.database";
+import "../../models/associations";
 
 async function start() {
     await sequelize.authenticate();
@@ -14,7 +13,6 @@ async function start() {
     //
     const combinedRoutes = Router();
     combinedRoutes.use("/users", userRoutes);
-    combinedRoutes.use("/roles", permissionRoutes);
 
     await initialiseService("/v1", combinedRoutes)
 
@@ -22,8 +20,6 @@ async function start() {
     // Database Configuration
     //
     if (process.env.ENVIRONMENT === "DEVELOPMENT") {
-        await sequelize.sync({force: true})
-        await seedSampleRoleData()
         await seedSampleUserData()
     }
 }

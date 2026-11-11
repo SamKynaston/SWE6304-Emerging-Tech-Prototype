@@ -5,7 +5,7 @@ import { Request, Response } from "express";
 import { Role } from "@prototype/types";
 
 // Model
-import { RoleModel } from "../../../models/role.model";
+import { RoleModel } from "../../models/role.model";
 
 export const GET_ALL_ROLES = async ( Req: Request, Res: Response ) => {
     try {
