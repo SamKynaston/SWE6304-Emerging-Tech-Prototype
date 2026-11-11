@@ -13,7 +13,7 @@ async function start() {
     //  Listener
     //
     const combinedRoutes = Router();
-    combinedRoutes.use("/", userRoutes);
+    combinedRoutes.use("/users", userRoutes);
     combinedRoutes.use("/roles", permissionRoutes);
 
     await initialiseService("/v1", combinedRoutes)

@@ -10,7 +10,7 @@ async function start() {
     //  Listener
     //
     const combinedRoutes = Router();
-    combinedRoutes.use(chatRoutes)
+    combinedRoutes.use("/chat", chatRoutes)
 
     await initialiseService("/v1", combinedRoutes)
 }
