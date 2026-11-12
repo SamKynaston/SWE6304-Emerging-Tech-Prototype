@@ -48,7 +48,7 @@ export async function seedSampleData() {
     await sampleRoles[2].setPermissions([samplePermissions[3]]);
 
     await sampleUsers[0].setRole(sampleRoles[0]);
-    await sampleUsers[1].setRole(sampleRoles[1]);
+    await sampleUsers[1].setRole(sampleRoles[2]);
     await sampleUsers[2].setRole(sampleRoles[1]);
     await sampleUsers[3].setRole(sampleRoles[1]);
 }
