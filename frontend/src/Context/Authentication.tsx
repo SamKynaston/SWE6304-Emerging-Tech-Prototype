@@ -8,6 +8,7 @@ type AuthContextType = {
   authenticated: boolean;
   loading: boolean;
   forceReset: boolean;
+  isInMaintenanceMode: boolean;
   hasPermission: (permissionName: string) => boolean;
   refreshUser: () => Promise<void>;
 };
@@ -28,6 +29,7 @@ const AuthContext = createContext<AuthContextType>({
   authenticated: false,
   loading: true,
   forceReset: false,
+  isInMaintenanceMode: false,
   hasPermission: () => false,
   refreshUser: async () => {},
 });
@@ -35,24 +37,21 @@ const AuthContext = createContext<AuthContextType>({
 export const AuthProvider = ({ children }: any) => {
   const [user, setUser] = useState<User | null>(null);
   const [authenticated, setAuthenticated] = useState(false);
+  const [isInMaintenanceMode, setMaintenanceMode] = useState(false);
   const [loading, setLoading] = useState(true);
   const [forceReset, setForceReset] = useState(false);
 
   const authRequestId = useRef(0);
 
   // Function to check if a user has admin-level permissions
-  const isAdmin = user?.roles?.some((role: any) =>
-    role.permissions?.some((p: any) => p.permission_string === "ADMINISTRATOR")
-  );
+  const isAdmin = user?.role.permissions?.some((p: any) => p.permission_string === "ADMINISTRATOR");
 
   // Function to check if a user has a specified permission, should use the permissionName type but sadly does not.
   const hasPermission = (permissionName: string) => {
-    if (!user || !user.roles) return false;
+    if (!user || !user.role) return false;
     if (isAdmin) return true;
 
-    return user.roles.some((role: any) => 
-      role.permissions?.some((p: any) => p.permission_string === permissionName)
-    );
+    return user.role.permissions?.some((p: any) => p.permission_string === permissionName)
   };
 
   // Confirms the user's identity by calling the /me route on the API, if in a forceReset state, makes it clear and forces user to always redirect to /reset-password
@@ -124,7 +123,7 @@ export const AuthProvider = ({ children }: any) => {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user, authenticated, forceReset, loading, hasPermission, refreshUser }}>
+    <AuthContext.Provider value={{ user, authenticated, forceReset, loading, isInMaintenanceMode, hasPermission, refreshUser }}>
       {children}
     </AuthContext.Provider>
   );
