@@ -10,7 +10,7 @@
     "types": ["jest", "node"],
     
     "paths": {
-      //"@bookwebapp/types": ["node_modules/@bookwebapp/types/dist"],
+      //"@prototype/types": ["node_modules/@prototype/types/dist"],
     },
   },
   "include": ["src/**/*"],

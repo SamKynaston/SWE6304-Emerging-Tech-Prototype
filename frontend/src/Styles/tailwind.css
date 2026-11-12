@@ -1,0 +1,203 @@
+@import "tailwindcss";
+@tailwind utilities;
+
+body {
+    @apply text-gray-900 md:text-gray-300 bg-stone-300 md:bg-stone-900 text-center md:text-left;
+}
+
+.Content {
+    @apply w-full px-2 py-2 md:px-4 md:py-4 mx-auto flex flex-col items-center bg-stone-300 text-gray-900;
+}
+
+.Navigation {
+    @apply px-24 md:flex md:justify-between md:items-stretch bg-stone-900 text-gray-300 sm:sticky md:top-0 md:z-100;
+}
+
+.MobileNavigationWrapper {
+    @apply w-full h-auto justify-center items-center flex;
+}
+
+.MobileNavigationBar {
+    @apply text-xs w-full max-w-3/4 flex fixed bottom-0 z-50 mb-2 bg-stone-900/60 backdrop-blur-sm text-gray-300 border border-stone-700 rounded-xl shadow-lg;
+}
+
+.MobileNavigationBar i {
+    @apply text-2xl;
+}
+
+.MobileNavigationBar p {
+    @apply mt-0 text-xs;
+}
+
+.MobileNavigationBar .Navigation-Button {
+    @apply py-2 px-2 cursor-pointer w-full md:w-auto h-full md:flex items-center block;
+}
+
+.MobileNavigationBar a {
+    @apply no-underline cursor-pointer;
+}
+
+.Navigation a {
+    @apply no-underline cursor-pointer;
+}
+
+.Navigation .Navigation-Button {
+    @apply p-2 cursor-pointer h-full md:flex items-center block;
+}
+
+.Navigation .Navigation-Start {
+    @apply flex gap-4 w-1/2;
+}
+
+.Navigation .Navigation-End {
+    @apply flex w-1/2 justify-end;
+}
+
+.Navigation-Button img {
+    @apply w-full h-10;
+}
+
+.Navigation .Navigation-Button:hover {
+    @apply bg-neutral-800 text-white;
+}
+
+.Footer {
+    @apply text-center text-gray-300 p-5;
+}
+
+a {
+    @apply underline;
+}
+
+a:hover {
+    @apply text-blue-400;
+}
+
+h1 {
+    @apply text-2xl;
+}
+
+h2 {
+    @apply text-xl;
+}
+
+h3 {
+    @apply text-xl;
+}
+
+div .Books {
+    @apply pb-20 md:pb-0 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-2 md:gap-4 items-start justify-items-center w-full lg:max-w-3/4 mx-auto text-left;
+}
+
+div .Books .Book {
+    @apply bg-stone-900 text-gray-300 p-3 gap-4 rounded-xl shadow-xl flex items-start cursor-pointer w-full h-full transition;
+}
+
+div .Books .Book p {
+    @apply text-sm text-gray-500 font-bold mb-2;
+}
+
+div .Books .Book:hover {
+    @apply lg:scale-[1.05] shadow-2xl z-10;
+}
+
+div .Books .Book.Recommended {
+    @apply border-yellow-200;
+}
+
+div .Book p {
+    @apply text-gray-300;
+}
+
+div .Book .BookContent {
+    @apply flex flex-col w-full h-full justify-around;
+}
+
+div .Book .BookContent a {
+    @apply mt-auto self-end w-full text-right no-underline;
+}
+
+div .Book .BookContent h2 {
+    @apply font-black text-lg mb-1 leading-tight;
+}
+
+div .Book .BookContent p {
+    @apply text-xs italic font-light text-gray-400 mt-0;
+}
+
+div .reference {
+    @apply p-4 bg-neutral-900 text-gray-300 rounded shadow mb-4 cursor-pointer lg:transition w-full lg:w-150;
+}
+
+div .reference:hover {
+    @apply lg:scale-[1.05];
+}
+
+div .reference .title {
+    @apply text-gray-300 mb-2;
+}
+
+div .reference .subtitle {
+    @apply text-gray-300 text-sm;
+}
+
+.SearchWrapper {
+    @apply static p-0 w-full flex justify-center;
+}
+
+form input, form button, .SearchInput {
+    @apply mb-0 p-2 bg-stone-900 border border-stone-700 placeholder-gray-400 text-gray-100 shadow-none rounded-xl text-lg pl-4 w-full justify-center;
+}
+
+.SearchWrapper input, .SearchWrapper button {
+    @apply w-full lg:max-w-3/4
+}
+
+.HomeLayout {
+    @apply flex flex-col w-full gap-2 md:gap-4;
+}
+
+div .RecommendedBadge {
+    @apply bg-green-500 text-white px-2 py-1 rounded-full text-sm;
+}
+
+div .BookDetails {
+    @apply w-full max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-8 items-start;
+}
+
+div .BookDetails img {
+    @apply max-h-75 w-auto mx-auto md:mx-0;
+}
+
+div .BookDetails .BookInfo {
+    @apply flex flex-col gap-4;
+}
+
+div .BookDetails p {
+    @apply italic;
+}
+
+div .BookDetails h1 {
+    @apply text-4xl font-bold mb-1 md:mb-2 leading-tight;
+}
+
+div .BookCover {
+    @apply relative flex justify-end w-full h-64 object-cover shrink-0 rounded-lg;
+}
+
+
+div .BookCover .NoCover {
+    @apply h-75 bg-stone-800 rounded-xl flex items-center justify-center text-gray-500;
+}
+
+div .BookCover .LoadAnimation {
+    @apply absolute inset-0 bg-stone-600 animate-pulse rounded-xl;
+}
+
+.LimitBookSize {
+    @apply max-h-28 max-w-20;
+}
+
+.CoverLoaded {
+    @apply w-full h-full object-cover rounded-xl transition-opacity duration-300;
+}

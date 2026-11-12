@@ -36,7 +36,7 @@ export async function initialiseService(basePath: string, routes: Router) : Prom
     } else {
         // Otherwise, expect requests from a specified domain
         app.use(cors({
-        origin: ["https://bookwebapp.com"],
+        origin: ["https://prototype.com"],
         credentials: true
         }));
     }

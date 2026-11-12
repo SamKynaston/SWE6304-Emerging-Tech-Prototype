@@ -1,7 +1,7 @@
 import { User } from "@prototype/types";
 import { createContext, useContext, useEffect, useState } from "react";
 import { useRef } from "react";
-import { apiFetch } from "../fetch.utility";
+import { apiFetch } from "../Utilities/Fetch.utilities";
 
 type AuthContextType = {
   user: User | null;

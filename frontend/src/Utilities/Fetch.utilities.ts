@@ -1,4 +1,4 @@
-import { errorMessages } from "./strings";
+import { errorMessages } from "./Error.utilities";
 
 export const apiFetch = async (endPoint: string, parameters: RequestInit = {} ): Promise<Response> => {
     const apiUrl = import.meta.env.VITE_API_URL;

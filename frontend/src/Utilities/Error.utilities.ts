@@ -6,4 +6,3 @@ export const errorMessages: Record<number, { title: string; type:string; message
     404: { title: "Content Not Found", type: "CONTENT_NOT_FOUND", message: "The content you are looking for was not found." },
     500: { title: "Server Error", type: "SERVER_ERROR", message: "Oops! Something broke on our end." },
 };
-

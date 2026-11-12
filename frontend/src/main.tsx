@@ -1,10 +1,80 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import './index.css'
-import App from './App.tsx'
+import { StrictMode, use } from "react";
+import { createRoot } from "react-dom/client";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { useState, useEffect } from "react";
 
-createRoot(document.getElementById('root')!).render(
-  <StrictMode>
-    <App />
-  </StrictMode>,
-)
+// Styling
+import "./Styles/tailwind.css";
+
+// Icon
+import icon from "../public/logo.svg"
+
+// Components
+import Navigation from "./Components/Navigation";
+
+// Pages
+import { HomeRouter } from "./Components/HomeRouter";
+import BookPage from "./Pages/Book";
+import Error from "./Pages/Error";
+import Footer from "./Components/Footer";
+import AccountPage from "./Pages/Account";
+import AuthenticationPage from "./Pages/Authentication";
+import SearchPage from "./Pages/Search";
+import AdminDashboardPage from "./Pages/Dashboard";
+
+import MobileNavigation from "./Components/MobileNavigation";
+import { checkAuth, AuthProvider, useAuth } from "./Context/Authentication";
+import PasswordResetPage from "./Pages/PasswordReset";
+
+const bookDirectory = import.meta.env.VITE_BOOK_DIRECTORY || "/book";
+
+const AuthGate = ({ children }: { children: React.ReactNode }) => {
+  const { loading } = useAuth();
+
+  if (loading) return <div className="bg-gray-900 h-screen w-screen" />; 
+  return <>{children}</>;
+};
+
+const App: React.FC = () => {
+  const [isMobileDevice, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const query = window.matchMedia("(max-width: 768px)");
+    const update = () => setIsMobile(query.matches);
+    update();
+
+    query.addEventListener("change", update);
+    return () => query.removeEventListener("change", update);
+  }, []);
+
+  return (
+    <BrowserRouter>      
+      <AuthProvider>
+        <AuthGate>
+          {!isMobileDevice && <Navigation />}
+
+          <Routes>
+            <Route path="/" element={<HomeRouter />} />
+            <Route path="/search" element={<SearchPage />} />
+            <Route path={`${bookDirectory}/:id`} element={<BookPage />} />
+            <Route path="/account" element={<AccountPage />} />
+            <Route path="/login" element={<AuthenticationPage />} />
+            <Route path="/dashboard" element={<AdminDashboardPage />} />
+            <Route path="/password-reset" element={<PasswordResetPage />} />
+            <Route path="*" element={<Error code={404} />} />
+          </Routes>
+
+          {isMobileDevice && <MobileNavigation />}
+          {!isMobileDevice && <Footer />}
+        </AuthGate>
+      </AuthProvider>
+    </BrowserRouter>
+  );
+};
+
+const rootElement = document.getElementById("root");
+if (rootElement) {
+  createRoot(rootElement).render(<App />);
+}
+
+export default App;

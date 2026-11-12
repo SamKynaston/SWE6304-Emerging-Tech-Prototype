@@ -18,6 +18,7 @@ export class UserModel extends Model implements User {
   declare must_reset_password: Boolean;
   declare can_be_signed_into: Boolean;
   declare dob: Date;
+  declare roles: RoleModel[];
   declare setRole: BelongsToSetAssociationMixin<RoleModel, number>;
 }
 
