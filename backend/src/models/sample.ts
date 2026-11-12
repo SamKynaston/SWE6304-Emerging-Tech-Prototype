@@ -1,7 +1,7 @@
 import { UserModel } from "./user.model";
 import { RoleModel } from "./role.model";
 import { hashPassword } from "../utils/password";
-import { PermissionModel } from "./permission";
+import { PermissionModel } from "./permission.model";
 
 export async function seedSampleData() {
     const sampleUsers = await Promise.all([

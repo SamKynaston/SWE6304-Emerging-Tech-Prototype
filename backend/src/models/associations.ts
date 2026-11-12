@@ -1,8 +1,8 @@
 import { UserModel } from "./user.model";
 import { RoleModel } from "./role.model";
-import { TicketModel } from "./chat";
-import { UserTicketMessageModel } from "./chat.message";
-import { PermissionModel } from "./permission";
+import { TicketModel } from "./chat.model";
+import { UserTicketMessageModel } from "./chat.message.model";
+import { PermissionModel } from "./permission.model";
 
 // User | Role relationship
 UserModel.belongsTo(RoleModel, {

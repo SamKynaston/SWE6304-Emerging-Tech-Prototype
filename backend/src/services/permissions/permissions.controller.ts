@@ -5,13 +5,21 @@ import { Request, Response } from "express";
 import { Role } from "@prototype/types";
 
 // Model
-import { RoleModel } from "../../models/role.model";
+import { RoleModel, PermissionModel } from "../../models";
 
 export const GET_ALL_ROLES = async ( Req: Request, Res: Response ) => {
     try {
-        const roles: Role[] = await RoleModel.findAll();
+        const roles: Role[] = await RoleModel.findAll({
+            include: [
+                {
+                    model: PermissionModel,
+                    as: "permissions"
+                }
+            ]
+        });
         return Res.status(200).json({ body: roles, success: true })
-    } catch {
+    } catch (exc) {
+        console.log(exc)
         return Res.status(500).json({ body: null, success: false })
     }
 }

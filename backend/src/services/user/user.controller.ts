@@ -5,8 +5,7 @@ import { Request, Response } from "express";
 import { User } from "@prototype/types";
 
 // Model
-import { UserModel } from "../../models/user.model";
-import { RoleModel } from "../../models/role.model";
+import { RoleModel, UserModel } from "../../models";
 
 export const GET_ALL_USERS = async ( Req: Request, Res: Response ) => {
     try {
