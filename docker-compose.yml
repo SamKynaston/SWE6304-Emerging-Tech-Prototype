@@ -15,7 +15,8 @@ services:
       timeout: 10s
       retries: 5
 
-  db-init:
+  backend-init:
+    image: backend:local
     build:
       context: .
       dockerfile: ./backend/Dockerfile
@@ -28,47 +29,39 @@ services:
 
   # API Routes
   user-microservice:
-    build:
-      context: .
-      dockerfile: ./backend/Dockerfile
+    image: backend:local
     command: ["npm", "run", "start:users"]
     env_file:
       - .env
     depends_on:
-      db-init:
+      backend-init:
         condition: service_completed_successfully
 
   chat-microservice:
-    build:
-      context: .
-      dockerfile: ./backend/Dockerfile
+    image: backend:local
     command: ["npm", "run", "start:chat"]
     env_file:
       - .env
     depends_on:
-      db-init:
+      backend-init:
         condition: service_completed_successfully
 
   permissions-microservice:
-    build:
-      context: .
-      dockerfile: ./backend/Dockerfile
+    image: backend:local
     command: ["npm", "run", "start:permissions"]
     env_file:
       - .env
     depends_on:
-      db-init:
+      backend-init:
         condition: service_completed_successfully
 
   health-microservice:
-    build:
-      context: .
-      dockerfile: ./backend/Dockerfile
+    image: backend:local
     command: ["npm", "run", "start:health"]
     env_file:
       - .env
     depends_on:
-      db-init:
+      backend-init:
         condition: service_completed_successfully
         
   # API Gateway
