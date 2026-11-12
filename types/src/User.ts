@@ -6,5 +6,7 @@ export type User = {
   name: string;
   password: string;
   dob: Date;
-  roles: Role[];
+  role: Role;
+  can_be_signed_into: boolean;
+  must_reset_password: boolean;
 };

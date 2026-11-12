@@ -15,10 +15,10 @@ export class UserModel extends Model implements User {
   declare email: string;
   declare name: string;
   declare password: string;
-  declare must_reset_password: Boolean;
-  declare can_be_signed_into: Boolean;
+  declare must_reset_password: boolean;
+  declare can_be_signed_into: boolean;
   declare dob: Date;
-  declare roles: RoleModel[];
+  declare role: RoleModel;
   declare setRole: BelongsToSetAssociationMixin<RoleModel, number>;
 }
 

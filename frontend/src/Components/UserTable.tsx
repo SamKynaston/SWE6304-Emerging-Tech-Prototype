@@ -52,6 +52,11 @@ export function UserTable() {
         <DataTable data={users} isEditing={(u) => u.id === editingId} onAdd={() => setCreating(true)}
             columns={[
                 {
+                    header: "id",
+                    render: (u) => u.id,
+                },
+
+                {
                     header: "Username",
                     render: (u) => u.name,
                 },
@@ -62,25 +67,18 @@ export function UserTable() {
                 },
 
                 {
-                header: "Actions",
+                    header: "canBeSignedInto",
+                    render: (u) => u.can_be_signed_into,
+                },
 
-                render: (u) => (
-                    <div className="flex justify-end gap-3">
-                        <a onClick={() => {
-                            setEditingId(u.id);
-                            setUsername(u.name);
-                            setEmail(u.email);
-                        }}>
-                            Edit
-                        </a>
+                {
+                    header: "mustResetPassword",
+                    render: (u) => u.must_reset_password,
+                },
 
-                        <a onClick={() => {
-                            forcePasswordReset(u.id);
-                        }}>
-                            Reset Password
-                        </a>
-                    </div>
-                ),
+                {
+                    header: "role",
+                    render: (u) => u.role.name,
                 },
             ]}
 

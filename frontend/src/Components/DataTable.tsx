@@ -2,8 +2,14 @@ import { ReactNode } from "react";
 
 export type Column<T> = {
     header: string;
-    render: (item: T, index: number) => ReactNode;
+    render: (item: T, index: number) => ReactNode | Date;
     className?: string;
+}
+
+function renderCell(value: ReactNode | Date): ReactNode {
+    if (value instanceof Date) return value.toLocaleString();
+    if (typeof value === "boolean") return String(value);
+    return value;
 }
 
 type DataTableProps<T> = {
@@ -49,7 +55,7 @@ export function DataTable<T>({data, columns, isEditing, renderEditRow, renderCre
                         <tr key={i} className="hover:bg-gray-50">
                             {columns.map((c, colIndex) => (
                             <td key={colIndex} className={`px-4 py-3 ${c.className ?? ""}`}>
-                                {c.render(item, i)}
+                                {renderCell(c.render(item, i))}
                             </td>
                             ))}
                         </tr>
