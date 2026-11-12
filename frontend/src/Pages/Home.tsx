@@ -61,7 +61,6 @@ function Home({ }: HomeProps) {
     <Page>
       <>
         <h1>🚧 UNDER CONSTRUCTION 🚧</h1>
-        <h2>Codename "Silver Stallion"</h2>
       </>
       {!user ? (
         <>
