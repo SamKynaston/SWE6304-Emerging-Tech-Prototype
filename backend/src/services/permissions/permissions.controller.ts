@@ -6,18 +6,10 @@ import { Role } from "@prototype/types";
 
 // Model
 import { RoleModel } from "../../models/role.model";
-import { PermissionModel } from "../../models/permission";
 
 export const GET_ALL_ROLES = async ( Req: Request, Res: Response ) => {
     try {
-        const roles: Role[] = await RoleModel.findAll({
-            include: [
-                {
-                    model: PermissionModel,
-                    as: "permissions"
-                }
-            ]
-        });
+        const roles: Role[] = await RoleModel.findAll();
         return Res.status(200).json({ body: roles, success: true })
     } catch {
         return Res.status(500).json({ body: null, success: false })
