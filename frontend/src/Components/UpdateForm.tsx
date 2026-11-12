@@ -10,7 +10,7 @@ interface UpdateFormType {
 export const UpdateForm = ({ id }: UpdateFormType ) => {
     const { user, refreshUser } = useAuth();
 
-    const [username, setUsername] = useState(user?.username || "");
+    const [username, setUsername] = useState(user?.name || "");
     const [email, setEmail] = useState(user?.email || "");
     const [password, setPassword] = useState("");
 

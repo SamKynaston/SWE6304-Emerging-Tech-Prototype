@@ -53,7 +53,7 @@ export function UserTable() {
             columns={[
                 {
                     header: "Username",
-                    render: (u) => u.username,
+                    render: (u) => u.name,
                 },
 
                 {
@@ -68,7 +68,7 @@ export function UserTable() {
                     <div className="flex justify-end gap-3">
                         <a onClick={() => {
                             setEditingId(u.id);
-                            setUsername(u.username);
+                            setUsername(u.name);
                             setEmail(u.email);
                         }}>
                             Edit

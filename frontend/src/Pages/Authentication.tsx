@@ -1,7 +1,6 @@
 import Page from "../Components/Page";
 import { AuthenticationForm } from "../Components/AuthenticationForm";
 import { SignupForm } from "../Components/SignupForm";
-import { useState } from "react";
 
 type AuthenticationPageProps = {
   //isLoggedIn: boolean; 

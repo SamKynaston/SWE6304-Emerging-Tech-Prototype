@@ -1,1 +1,1 @@
-{"root":["./src/chat.ts","./src/course.ts","./src/permission.ts","./src/role.ts","./src/room.ts","./src/user.ts","./src/index.ts"],"version":"5.9.3"}
+{"root":["./src/chat.ts","./src/course.ts","./src/page.ts","./src/permission.ts","./src/role.ts","./src/room.ts","./src/user.ts","./src/index.ts"],"version":"5.9.3"}

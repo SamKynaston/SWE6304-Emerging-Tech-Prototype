@@ -32,7 +32,7 @@ function AccountManagementPage({ }: AccountManagementPageProps) {
 
   return (
     <Page requiresAccount={true}>
-      <h1 className="mb-2">Hello, {user?.username || "User"}!</h1>
+      <h1 className="mb-2">Hello, {user?.name || "User"}!</h1>
       <p>Welcome to your hub.</p>
       <a onClick={handleSignout}>Logout</a>
       <a onClick={handlePasswordReset}>Password Reset</a>

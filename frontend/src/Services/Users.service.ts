@@ -1,4 +1,4 @@
-import { User, Book } from "@prototype/types";
+import { User } from "@prototype/types";
 import { apiFetch, handleResponse } from "../Utilities/Fetch.utilities";
 
 // Calls the API to update a user's email or username
