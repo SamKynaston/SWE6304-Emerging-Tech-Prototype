@@ -20,15 +20,14 @@ function Home({ }: HomeProps) {
 
   return (
     <Page>
-      {user ? (
-        <>
-          <h1 className="mb-4">UNDER CONSTRUCTION</h1>
-        </>
-      ) : (
+      <>
+        <h1 className="mb-4">🚧 UNDER CONSTRUCTION 🚧</h1>
+      </>
+      {!user ? (
         <>
           <Link to="/login">Sign in to see your favourites!</Link>
         </>
-      )}
+      ) : ( <> </> )}
     </Page>
   );
 };
