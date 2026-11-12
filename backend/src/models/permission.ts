@@ -1,7 +1,6 @@
 import { DataTypes, Model, CreationOptional } from "sequelize";
 import { sequelize } from "../utils/start.database";
 import { PERMISSIONS_STRING, RolePermission } from "@prototype/types";
-import { RoleModel } from "./role.model";
 
 // The permission's database model, implementing its shared type
 export class PermissionModel extends Model implements RolePermission {
@@ -28,20 +27,5 @@ PermissionModel.init(
     modelName: "Permission",
   },
 );
-
-// Many-to-Many junction tables through RolePermissions
-PermissionModel.belongsToMany(RoleModel, {
-  through: "RolePermissions",
-  foreignKey: "permissionId",
-  otherKey: "roleId",
-  as: "roles",
-});
-
-RoleModel.belongsToMany(PermissionModel, {
-    through: "RolePermissions",
-    foreignKey: "roleId",
-    otherKey: "permissionId",
-    as: "permissions",
-});
 
 export default PermissionModel;

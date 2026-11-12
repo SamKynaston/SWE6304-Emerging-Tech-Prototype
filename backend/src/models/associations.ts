@@ -2,6 +2,7 @@ import { UserModel } from "./user.model";
 import { RoleModel } from "./role.model";
 import { TicketModel } from "./chat";
 import { UserTicketMessageModel } from "./chat.message";
+import { PermissionModel } from "./permission";
 
 // User | Role relationship
 UserModel.belongsTo(RoleModel, {
@@ -12,6 +13,21 @@ UserModel.belongsTo(RoleModel, {
 RoleModel.hasMany(UserModel, {
   foreignKey: "roleId",
   as: "users",
+});
+
+// Role | Permission relationship
+PermissionModel.belongsToMany(RoleModel, {
+  through: "RolePermission",
+  foreignKey: "permissionId",
+  otherKey: "roleId",
+  as: "roles",
+});
+
+RoleModel.belongsToMany(PermissionModel, {
+    through: "RolePermission",
+    foreignKey: "roleId",
+    otherKey: "permissionId",
+    as: "permissions",
 });
 
 // Chat | User relationship
