@@ -23,10 +23,10 @@ export async function seedSampleData() {
         { permission_string: "DELETE_USERS"},
         { permission_string: "ADMINISTRATOR"},
         { permission_string: "ROOT"},
-    ].map(async (role) => {
+    ].map(async (permission) => {
         const [instance] = await PermissionModel.findOrCreate({
-            where: { name: role.permission_string },
-            defaults: role,
+            where: { permission_string: permission.permission_string },
+            defaults: permission,
         });
         return instance;
     }));
