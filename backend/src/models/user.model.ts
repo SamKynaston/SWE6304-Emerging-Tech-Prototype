@@ -17,8 +17,6 @@ export class UserModel extends Model implements User {
   declare password: string;
   declare must_reset_password: Boolean;
   declare dob: Date;
-  declare roleId: ForeignKey<RoleModel["id"]>;
-
   declare setRole: BelongsToSetAssociationMixin<RoleModel, number>;
 }
 
