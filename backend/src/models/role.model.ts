@@ -1,11 +1,13 @@
-import { CreationOptional, DataTypes, Model } from "sequelize";
+import { CreationOptional, DataTypes, Model, BelongsToManyAddAssociationsMixin } from "sequelize";
 import { sequelize } from "../utils/start.database";
-import { Role } from "@prototype/types";
-import { UserModel } from "./user.model";
+import { Role, RolePermission } from "@prototype/types";
+import PermissionModel from "./permission";
 
 export class RoleModel extends Model implements Role {
   declare id: CreationOptional<number>;
   declare name: string;
+  declare permissions: RolePermission[];
+  declare setPermissions: BelongsToManyAddAssociationsMixin<PermissionModel, number>;
 }
 
 RoleModel.init(

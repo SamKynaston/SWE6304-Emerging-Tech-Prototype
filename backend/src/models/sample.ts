@@ -1,6 +1,7 @@
 import { UserModel } from "./user.model";
 import { RoleModel } from "./role.model";
 import { hashPassword } from "../utils/password";
+import { PermissionModel } from "./permission";
 
 export async function seedSampleData() {
     const sampleUsers = await Promise.all([
@@ -16,11 +17,24 @@ export async function seedSampleData() {
         return instance;
     }));
 
+    const samplePermissions = await Promise.all([
+        { permission_string: "READ_USERS"},
+        { permission_string: "WRITE_USERS"},
+        { permission_string: "DELETE_USERS"},
+        { permission_string: "ADMINISTRATOR"},
+        { permission_string: "ROOT"},
+    ].map(async (role) => {
+        const [instance] = await PermissionModel.findOrCreate({
+            where: { name: role.permission_string },
+            defaults: role,
+        });
+        return instance;
+    }));
+
     const sampleRoles = await Promise.all([
         { id: 0, name: "Root"},
         { id: 1, name: "User" },
         { id: 2, name: "Admin" },
-        { id: 3, name: "Bot" },
     ].map(async (role) => {
         const [instance] = await RoleModel.findOrCreate({
             where: { name: role.name },
@@ -28,6 +42,10 @@ export async function seedSampleData() {
         });
         return instance;
     }));
+
+    await sampleRoles[0].setPermissions([samplePermissions[5]]);
+    await sampleRoles[1].setPermissions([samplePermissions[1]]);
+    await sampleRoles[2].setPermissions([samplePermissions[4]]);
 
     await sampleUsers[0].setRole(sampleRoles[0]);
     await sampleUsers[1].setRole(sampleRoles[1]);

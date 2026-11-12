@@ -3,4 +3,4 @@ export type PERMISSIONS_STRING =
     "WRITE_USERS" | 
     "DELETE_USERS" |
     "ADMINISTRATOR" |
-    "GET_ALL_USERS" 
+    "ROOT"
