@@ -20,7 +20,7 @@ export const GET_ALL_USERS = async ( Req: Request, Res: Response ) => {
             ]
         });
         return Res.status(200).json({ body: users, success: true })
-    } catch (exc) {
-        return Res.status(500).json({ body: exc, success: false })
+    } catch {
+        return Res.status(500).json({ body: null, success: false })
     }
 }
