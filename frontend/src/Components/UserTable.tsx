@@ -67,6 +67,11 @@ export function UserTable() {
                 },
 
                 {
+                    header: "Birthday",
+                    render: (u) => u.dob,
+                },
+                
+                {
                     header: "canBeSignedInto",
                     render: (u) => u.can_be_signed_into,
                 },
