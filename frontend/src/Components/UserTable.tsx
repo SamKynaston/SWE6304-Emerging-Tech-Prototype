@@ -70,7 +70,7 @@ export function UserTable() {
                     header: "Birthday",
                     render: (u) => u.dob,
                 },
-                
+
                 {
                     header: "canBeSignedInto",
                     render: (u) => u.can_be_signed_into,
@@ -86,32 +86,6 @@ export function UserTable() {
                     render: (u) => u.role.name,
                 },
             ]}
-
-            renderEditRow={(b) => (
-                <>
-                    <td><input className="w-full border border-blue-600 rounded px-2 py-1 bg-white outline-none" value={username} onChange={e => setUsername(e.target.value)} /></td>
-                    <td><input className="w-full border border-blue-600 rounded px-2 py-1 bg-white outline-none" value={email} onChange={e => setEmail(e.target.value)} /></td>
-
-                    <td className="text-right space-x-3 px-4 py-3">
-                        <a onClick={() => saveUpdate(b.id)}>Save</a>
-                        <a onClick={reset}>Cancel</a>
-                    </td>
-                </>
-            )}
-
-            renderCreateRow={() =>
-                creating && (
-                    <>
-                        <td className="px-4 py-3"><input className="w-full border border-blue-600 rounded px-2 py-1 bg-white outline-none" placeholder="Username" value={username} onChange={e => setUsername(e.target.value)} /></td>
-                        <td className="px-4 py-3"><input className="w-full border border-blue-600 rounded px-2 py-1 bg-white outline-none" placeholder="Email" value={email} onChange={e => setEmail(e.target.value)} /></td>
-
-                        <td className="text-right space-x-3 px-4 py-3">
-                            <a onClick={saveCreate}>Save</a>
-                            <a onClick={reset}>Cancel</a>
-                        </td>
-                    </>
-                )
-            }
         />
     );
 }

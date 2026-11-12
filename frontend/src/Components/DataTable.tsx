@@ -27,10 +27,10 @@ type DataTableProps<T> = {
 export function DataTable<T>({data, columns, isEditing, renderEditRow, renderCreateRow, onAdd}: DataTableProps<T>) {
   return (
     <div className="w-full md:max-w-6xl mx-auto p-4">
-        <div className="bg-white rounded-xl border border-gray-200 overflow-x-auto shadow-sm">
+        <div className="bg-stone-900 text-stone-300 rounded-xl border border-gray-200 overflow-x-auto shadow-sm">
             <table className="min-w-225 w-full leading-normal">
             <thead>
-                <tr className="bg-stone-900 text-gray-300 text-xs uppercase tracking-widest">
+                <tr className="text-xs uppercase tracking-widest">
                     {columns.map((c, i) => (
                         <th key={i} className="px-4 py-3 text-left">
                             {c.header}
@@ -52,7 +52,7 @@ export function DataTable<T>({data, columns, isEditing, renderEditRow, renderCre
                     }
 
                     return (
-                        <tr key={i} className="hover:bg-gray-50">
+                        <tr key={i}>
                             {columns.map((c, colIndex) => (
                             <td key={colIndex} className={`px-4 py-3 ${c.className ?? ""}`}>
                                 {renderCell(c.render(item, i))}
@@ -69,7 +69,7 @@ export function DataTable<T>({data, columns, isEditing, renderEditRow, renderCre
                 )}
             </tbody>
                 {onAdd && (
-                    <tfoot className="bg-stone-900">
+                    <tfoot>
                         <tr>
                         <td colSpan={columns.length} className="px-4 py-3">
                             <div className="flex justify-end">
