@@ -6,7 +6,7 @@ import jwt from "jsonwebtoken";
 export const CREATE_USER = async (username: string, password: string, email: string) => {
     // Create the user in the database
     // NOTE: The model automatically hashes the password upon creation and all future updates
-    const user = await UserModel.create({ username, password, email });
+    const user = await UserModel.create({ name: username, password: password, email: email });
     
     // Gets the default user role. 
     const userRole = await RoleModel.findOne({
