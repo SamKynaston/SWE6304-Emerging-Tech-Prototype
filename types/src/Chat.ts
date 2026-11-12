@@ -9,3 +9,10 @@ export interface Ticket {
 export interface TicketMessage {
     id: number;
 }
+
+export interface TicketConclusion {
+    chatId: number;
+    adminId: number;
+    concludedAt: Date;
+    outcome: string;
+}
