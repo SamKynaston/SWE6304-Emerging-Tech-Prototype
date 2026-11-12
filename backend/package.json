@@ -11,6 +11,7 @@
     "build": "tsc",
     "db:init": "node dist/utils/sync.database.js",
     "start:users": "node dist/services/user/user.index.js",
+    "start:health": "node dist/services/health/health.index.js",
     "start:chat": "node dist/services/chat/chat.index.js",
     "start:permissions": "node dist/services/permissions/permissions.index.js",
     "test": "jest"

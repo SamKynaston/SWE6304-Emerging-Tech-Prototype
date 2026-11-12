@@ -60,6 +60,17 @@ services:
       db-init:
         condition: service_completed_successfully
 
+  health-microservice:
+    build:
+      context: .
+      dockerfile: ./backend/Dockerfile
+    command: ["npm", "run", "start:health"]
+    env_file:
+      - .env
+    depends_on:
+      db-init:
+        condition: service_completed_successfully
+        
   # API Gateway
   gateway:
     image: nginx:alpine
@@ -71,6 +82,7 @@ services:
       - permissions-microservice
       - user-microservice
       - chat-microservice
+      - health-microservice
 
   # Frontend Systems
   frontend:
