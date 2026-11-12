@@ -1,7 +1,7 @@
 import { CreationOptional, DataTypes, Model } from "sequelize";
-import { sequelize } from "../../../utils/start.database";
+import { sequelize } from "../utils/start.database";
 import { Role } from "@prototype/types";
-import { UserModel } from "../users/user.model";
+import { UserModel } from "./user.model";
 
 export class RoleModel extends Model implements Role {
   declare id: CreationOptional<number>;

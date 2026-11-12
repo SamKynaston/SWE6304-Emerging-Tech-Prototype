@@ -23,8 +23,6 @@ export async function initialiseService(basePath: string, routes: Router) : Prom
     // Automatically set all requests to json
     app.use(Express.json());
     
-    app.use(basePath, routes)
-
     // If in development, set cors origin so local ips work
     if (process.env.ENVIRONMENT === "DEVELOPMENT") {
         app.use(cors({
@@ -42,6 +40,8 @@ export async function initialiseService(basePath: string, routes: Router) : Prom
         credentials: true
         }));
     }
+
+    app.use(basePath, routes)
     
     // 
     //  Listener
