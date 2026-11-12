@@ -12,11 +12,6 @@ function MobileNavigation({ }: NavigationProps) {
           <i className="fa-solid fa-house"></i>
           <p>Home</p>
         </Link>
-        <Link to="/search" className="Navigation-Button">
-          <i className="fa-solid fa-magnifying-glass"></i>
-          <p>Search</p>
-        </Link>
-
 
         {
           // If an administrator, then add the dashboard to their navigiation
