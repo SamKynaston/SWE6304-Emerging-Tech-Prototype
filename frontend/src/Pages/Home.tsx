@@ -22,7 +22,8 @@ function Home({ }: HomeProps) {
   return (
     <Page>
       <>
-        <h1 className="mb-4">🚧 UNDER CONSTRUCTION 🚧</h1>
+        <h1>🚧 UNDER CONSTRUCTION 🚧</h1>
+        <h2>Codename "Silver Stallion"</h2>
       </>
       {!user ? (
         <>
