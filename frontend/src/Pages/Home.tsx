@@ -4,6 +4,12 @@ import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
 import { UserTable } from "../Components/UserTable";
 import { MessageForm } from "../Components/Message";
+import {
+  sendWebSocketMessage,
+  websocketSetup,
+  type WebSocketConnectionStatus,
+  type WebSocketResponse,
+} from "../Utilities/Websocket.utilities";
 
 // Home Page for authenticated users. Will show their favourited books using the BookBtn component, alongside how much stock there is.
 
@@ -13,44 +19,25 @@ interface HomeProps {
 
 function Home({ }: HomeProps) {
   const [messages, setMessages] = useState<string[]>([]);
-  const [connectionStatus, setConnectionStatus] = useState("Connecting");
+  const [connectionStatus, setConnectionStatus] = useState<WebSocketConnectionStatus>("Connecting");
   const socket = useRef<WebSocket | null>(null);
   const { user } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
-    const apiUrl = import.meta.env.VITE_API_URL;
-    if (!apiUrl) {
-      setConnectionStatus("WebSocket URL is not configured");
-      return;
-    }
-
-    const baseUrl = apiUrl.replace(/\/$/, "");
-    const ws = new WebSocket(`${baseUrl.replace(/^http/, "ws")}/v1/chat/ws`);
-    socket.current = ws;
-
-    ws.onopen = () => setConnectionStatus("Connected");
-    ws.onmessage = (event) => {
-      const message = JSON.parse(event.data) as { text?: string; error?: string };
-      const content = message.text ?? (message.error ? `Error: ${message.error}` : null);
+    return websocketSetup("v1/chat", socket, {
+      onConnectionStatusChange: setConnectionStatus,
+      onMessage: (message: WebSocketResponse) => {
+        const content = message.text ?? (message.error ? `Error: ${message.error}` : null);
       if (content) {
         setMessages((current) => [...current, content]);
       }
-    };
-    ws.onerror = () => setConnectionStatus("Connection error");
-    ws.onclose = () => setConnectionStatus("Disconnected");
-
-    return () => {
-      socket.current = null;
-      ws.close();
-    };
+      },
+    });
   }, []);
 
   const sendMessage = (text: string) => {
-    const ws = socket.current;
-    if (ws?.readyState === WebSocket.OPEN) {
-      ws.send(JSON.stringify({ text }));
-    }
+    sendWebSocketMessage(socket, text);
   };
 
   useEffect(() => {
