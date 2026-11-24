@@ -61,11 +61,10 @@ function Home({ }: HomeProps) {
               <li key={`${index}-${message}`}>{message}</li>
             ))}
           </ul>
-          <UserTable />
           <Link to="/login">Sign in to see your favourites!</Link>
           <></>
         </>
-      ) : ( <> </> )}
+      ) : ( <> <UserTable /> </> )}
     </Page>
   );
 };

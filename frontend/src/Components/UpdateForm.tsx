@@ -10,7 +10,8 @@ interface UpdateFormType {
 export const UpdateForm = ({ id }: UpdateFormType ) => {
     const { user, refreshUser } = useAuth();
 
-    const [username, setUsername] = useState(user?.name || "");
+    const [forename, setForename] = useState(user?.forename || "");
+    const [surname, setSurname] = useState(user?.surname || "");
     const [email, setEmail] = useState(user?.email || "");
     const [password, setPassword] = useState("");
 
@@ -23,7 +24,7 @@ export const UpdateForm = ({ id }: UpdateFormType ) => {
                     id = user.id
                 }
                 
-                if (await updateUser(email, username, id)) {
+                if (await updateUser(email, forename, surname, id)) {
                     await refreshUser()
                 }; 
             } catch (err) {
@@ -35,9 +36,11 @@ export const UpdateForm = ({ id }: UpdateFormType ) => {
     
     return (
         <form onSubmit={handleSubmit}>
-            <input value={username} onChange={(e) => setUsername(e.target.value)} placeholder="Username" required={true}></input>
+            <input value={forename} onChange={(e) => setForename(e.target.value)} placeholder="Account forename" required={true}></input>
             <br />
-            <input value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email" required={true}></input>
+            <input value={surname} onChange={(e) => setSurname(e.target.value)} placeholder="Account surname" required={true}></input>
+            <br />
+            <input value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Account email" required={true}></input>
             <br />
             <input onChange={(e) => setPassword(e.target.value)} placeholder="Password" type="password"></input>
             <br />

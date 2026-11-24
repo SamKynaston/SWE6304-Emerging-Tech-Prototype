@@ -6,7 +6,9 @@ import { signup } from "../Services/Users.service";
 export const SignupForm = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [username, setUsername] = useState("");
+
+    const [forename, setForename] = useState("");
+    const [surname, setSurname] = useState("");
 
     const navigate = useNavigate();
     const { refreshUser } = useAuth();
@@ -15,7 +17,7 @@ export const SignupForm = () => {
         event.preventDefault();
 
         try {
-            if (await signup(email, username, password)) {
+            if (await signup(email, forename, surname, password)) {
                 await refreshUser();
                 navigate("/account")
             }
@@ -26,11 +28,13 @@ export const SignupForm = () => {
     
     return (
         <form onSubmit={handleSubmit}>
-            <input onChange={(e) => setEmail(e.target.value)} placeholder="Email" required={true}></input>
+            <input value={forename} onChange={(e) => setForename(e.target.value)} placeholder="Account forename" required={true}></input>
             <br />
-            <input onChange={(e) => setUsername(e.target.value)} placeholder="Username" required={true}></input>
+            <input value={surname} onChange={(e) => setSurname(e.target.value)} placeholder="Account surname" required={true}></input>
             <br />
-            <input onChange={(e) => setPassword(e.target.value)} placeholder="Password" type="password" required={true}></input>
+            <input value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Account email" required={true}></input>
+            <br />
+            <input onChange={(e) => setPassword(e.target.value)} placeholder="Password" type="password"></input>
             <br />
             <button type="submit">Signup</button>
         </form>
