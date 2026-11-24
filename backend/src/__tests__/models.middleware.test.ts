@@ -1,4 +1,4 @@
-import { SEND_REQUEST_TO_MODEL_DEMO } from "./models.middleware";
+import { SEND_REQUEST_TO_MODEL_DEMO } from "../middleware/models.middleware";
 
 describe("SEND_REQUEST_TO_MODEL_DEMO", () => {
     afterEach(() => {
