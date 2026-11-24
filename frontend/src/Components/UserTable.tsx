@@ -8,7 +8,9 @@ export function UserTable() {
     const [editingId, setEditingId] = useState<number | null>(null);
     const [creating, setCreating] = useState(false);
 
-    const [username, setUsername] = useState("");
+    const [forename, setForename] = useState("");
+    const [surname, setSurname] = useState("");
+
     const [email, setEmail] = useState("");
 
     // Gets all users and sets the users state to the API's output
@@ -21,7 +23,8 @@ export function UserTable() {
 
     // Resets state when switching between entries
     const reset = () => {
-        setUsername("");
+        setForename("");
+        setSurname("");
         setEmail("");
         setEditingId(null);
         setCreating(false);
@@ -29,7 +32,7 @@ export function UserTable() {
 
     // Saves the creation of a brand new account
     const saveCreate = async () => {
-        const res = await createAccountAdmin(email, username);
+        const res = await createAccountAdmin(email, forename, surname);
 
         if (res) {
             const fresh = await getAllUsers();
@@ -40,7 +43,7 @@ export function UserTable() {
     };
 
     const saveUpdate = async (id: number) => {
-        await updateUser(email, username, id);
+        await updateUser(email, forename, surname, id);
         
         const fresh = await getAllUsers();
         setUsers(fresh.body);
@@ -57,8 +60,13 @@ export function UserTable() {
                 },
 
                 {
-                    header: "Username",
-                    render: (u) => u.name,
+                    header: "Forename",
+                    render: (u) => u.forename,
+                },
+
+                {
+                    header: "Surname",
+                    render: (u) => u.surname,
                 },
 
                 {

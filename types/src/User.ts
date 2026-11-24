@@ -3,7 +3,8 @@ import { Role } from "./Role";
 export type User = {
   id: number;
   email: string;
-  name: string;
+  forename: string;
+  surname: string;
   password: string;
   dob: Date;
   role: Role;

@@ -3,10 +3,10 @@ import { RoleModel } from "../models/role.model";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
-export const registerNewUser = async (username: string, password: string, email: string) => {
+export const registerNewUser = async (email: string, forename: string, surname: string, password: string) => {
     // Create the user in the database
     // NOTE: The model automatically hashes the password upon creation and all future updates
-    const user = await UserModel.create({ name: username, password: password, email: email });
+    const user = await UserModel.create({ email: email, forename: forename, surname: surname, password: password });
     
     // Gets the default user role. 
     const userRole = await RoleModel.findOne({
@@ -47,7 +47,7 @@ export const authenticateExistingUser = async (email: string, password: string) 
   }
 
   // Issue a JWT token that expires in 24 hours.
-  const token = jwt.sign({ id: user.id, name: user.name, email: user.email }, process.env.JWT_SECRET!, {
+  const token = jwt.sign({ id: user.id, email: user.email }, process.env.JWT_SECRET!, {
     expiresIn: "24h",
   });
 

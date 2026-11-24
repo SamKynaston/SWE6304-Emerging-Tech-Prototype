@@ -87,15 +87,16 @@ describe("User Controller", () => {
             (authenticateExistingUser as jest.Mock).mockResolvedValue("test-token");
 
             mockRequest.body = {
-                username: "Jane Doe",
-                password: "test",
                 email: "jane@example.com",
+                forename: "Jane",
+                surname: "Doe",
+                password: "test",
             };
 
             await CREATE_USER(mockRequest as Request, mockResponse as Response);
             expect(statusMock).toHaveBeenCalledWith(201);
             expect(jsonMock).toHaveBeenCalledWith({ success: true });
-            expect(registerNewUser).toHaveBeenCalledWith("Jane Doe", "test", "jane@example.com");
+            expect(registerNewUser).toHaveBeenCalledWith("jane@example.com", "Jane", "Doe", "test");
             expect(authenticateExistingUser).toHaveBeenCalledWith("jane@example.com", "test");
             expect(cookieMock).toHaveBeenCalledWith("SESSION_TOKEN", "test-token", expect.any(Object));
         })

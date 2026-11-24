@@ -2,13 +2,14 @@ import { User } from "@prototype/types";
 import { apiFetch, handleResponse } from "../Utilities/Fetch.utilities";
 
 // Calls the API to update a user's email or username
-export async function updateUser(email: string, username: string, id: number): Promise<boolean> {
+export async function updateUser(email: string, forename: string, surname: string, id: number): Promise<boolean> {
     const data = await handleResponse<{ success: boolean, body: User }>(
         await apiFetch(`v1/users/${id}`, {
             method: "PUT",
             body: JSON.stringify({ 
                 email: email, 
-                username: username, 
+                forename: forename, 
+                surname: surname,
             }),
         })
     )
@@ -91,13 +92,14 @@ export async function requestPasswordReset(): Promise<{ success: boolean, token:
 }
 
 // Calls the API to create a new user account
-export async function signup(email: string, username: string, password: string): Promise<boolean> {
+export async function signup(email: string, forename: string, surname: string, password: string): Promise<boolean> {
     const data = await handleResponse<{ success: boolean }>(
         await apiFetch(`v1/users`, {
             method: "POST",
             body: JSON.stringify({ 
                 email: email, 
-                username: username, 
+                forename: forename, 
+                surname: surname,
                 password: password 
             }),
         })
@@ -107,13 +109,14 @@ export async function signup(email: string, username: string, password: string):
 }
 
 // Calls the API to force the creation of a new user account via the CRUD table.
-export async function createAccountAdmin(email: string, username: string): Promise<boolean> {
+export async function createAccountAdmin(email: string, forename: string, surname: string): Promise<boolean> {
     const data = await handleResponse<{ success: boolean }>(
         await apiFetch(`v1/users/create-account`, {
             method: "POST",
             body: JSON.stringify({ 
                 email: email, 
-                username: username
+                forename: forename,
+                surname: surname,
             }),
         })
     );

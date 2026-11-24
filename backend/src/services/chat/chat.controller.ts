@@ -4,6 +4,10 @@ import { WebSocket } from "ws";
 import { SEND_REQUEST_TO_MODEL_DEMO } from "../../middleware/models.middleware";
 import { RawData } from "ws";
 
+export interface ChatConversationContext {
+    previousResponseId?: string;
+}
+
 export const TEST_ROUTE = async ( Req: Request, Res: Response ) => {
     try {
         return Res.status(200).json({ success: true })
@@ -12,7 +16,11 @@ export const TEST_ROUTE = async ( Req: Request, Res: Response ) => {
     }
 }
 
-export const CHAT_MESSAGE = async (socket: WebSocket, message: RawData) => {
+export const CHAT_MESSAGE = async (
+    socket: WebSocket,
+    message: RawData,
+    conversation: ChatConversationContext,
+) => {
     try {
         message = JSON.parse(message.toString());
     } catch {
@@ -32,10 +40,11 @@ export const CHAT_MESSAGE = async (socket: WebSocket, message: RawData) => {
     }
 
     try {
-        const text = await SEND_REQUEST_TO_MODEL_DEMO(message.text);
+        const result = await SEND_REQUEST_TO_MODEL_DEMO(message.text, conversation.previousResponseId);
+        conversation.previousResponseId = result.responseId;
         if (socket.readyState === WebSocket.OPEN) {
             socket.send(JSON.stringify({
-                text,
+                text: result.text,
                 sentAt: new Date().toISOString(),
             }));
         }

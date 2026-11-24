@@ -13,7 +13,8 @@ import { hashPassword } from "../utils/password";
 export class UserModel extends Model implements User {
   declare id: CreationOptional<number>;
   declare email: string;
-  declare name: string;
+  declare forename: string;
+  declare surname: string;
   declare password: string;
   declare must_reset_password: boolean;
   declare can_be_signed_into: boolean;
@@ -35,7 +36,12 @@ UserModel.init(
       allowNull: false,
     },
 
-    name: {
+    forename: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+
+    surname: {
       type: DataTypes.STRING,
       allowNull: false,
     },
