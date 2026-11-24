@@ -25,11 +25,9 @@ export const AuthenticationForm = () => {
     }
     
     return (
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} className="flex flex-col gap-3">
             <input onChange={(e) => setEmail(e.target.value)} placeholder="Email" required={true}></input>
-            <br />
             <input onChange={(e) => setPassword(e.target.value)} type="password" placeholder="Password" required={true}></input>
-            <br />
             <button type="submit">Login</button>
         </form>
     );
