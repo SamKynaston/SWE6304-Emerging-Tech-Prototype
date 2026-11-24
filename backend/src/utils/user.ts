@@ -46,6 +46,10 @@ export const authenticateExistingUser = async (email: string, password: string) 
     throw new Error("Invalid credentials");
   }
 
+  if (!user.can_be_signed_into) {
+    throw new Error("Invalid account");
+  }
+
   // Issue a JWT token that expires in 24 hours.
   const token = jwt.sign({ id: user.id, email: user.email }, process.env.JWT_SECRET!, {
     expiresIn: "24h",
