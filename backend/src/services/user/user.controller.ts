@@ -58,8 +58,8 @@ export const GET_USER = async ( Req: Request, Res: Response ) => {
 
 export const CREATE_USER = async ( Req: Request, Res: Response) => {
     try {
-        const { username, password, email } = Req.body;
-        await registerNewUser(username, password, email);
+        const { email, password } = Req.body;
+        await registerNewUser(email, password);
 
         const token = await authenticateExistingUser(email, password)
 
