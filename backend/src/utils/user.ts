@@ -3,7 +3,7 @@ import { RoleModel } from "../models/role.model";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
-export const CREATE_USER = async (username: string, password: string, email: string) => {
+export const registerNewUser = async (username: string, password: string, email: string) => {
     // Create the user in the database
     // NOTE: The model automatically hashes the password upon creation and all future updates
     const user = await UserModel.create({ name: username, password: password, email: email });
@@ -22,7 +22,7 @@ export const CREATE_USER = async (username: string, password: string, email: str
     return user;
 }
 
-export const AUTHENTICATE_USER = async (email: string, password: string) => {
+export const authenticateExistingUser = async (email: string, password: string) => {
   let user = null
   
   // If there is an email, check to see if the user exists in the records

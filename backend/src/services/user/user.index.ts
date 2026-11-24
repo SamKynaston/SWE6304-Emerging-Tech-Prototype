@@ -1,4 +1,5 @@
 import { Router } from "express";
+import "../../models/associations";
 import userRoutes from "./user.routes";
 import { initialiseService } from "../../utils/start.service";
 import { sequelize } from "../../utils/start.database";
