@@ -58,10 +58,10 @@ export const GET_USER = async ( Req: Request, Res: Response ) => {
 
 export const CREATE_USER = async ( Req: Request, Res: Response) => {
     try {
-        const { email, password } = Req.body;
-        await registerNewUser(email, password);
+        const { email, forename, surname, password } = Req.body;
 
-        const token = await authenticateExistingUser(email, password)
+        const user: User = await registerNewUser(email, forename, surname, password);
+        const token: String = await authenticateExistingUser(email, password)
 
         Res.cookie(process.env.SESSION_TOKEN_NAME || "SESSION_TOKEN", token, {
             httpOnly: true,

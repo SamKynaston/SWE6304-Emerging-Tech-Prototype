@@ -88,13 +88,15 @@ describe("User Controller", () => {
 
             mockRequest.body = {
                 email: "jane@example.com",
+                forename: "Jane",
+                surname: "Doe",
                 password: "test",
             };
 
             await CREATE_USER(mockRequest as Request, mockResponse as Response);
             expect(statusMock).toHaveBeenCalledWith(201);
             expect(jsonMock).toHaveBeenCalledWith({ success: true });
-            expect(registerNewUser).toHaveBeenCalledWith("jane@example.com", "test");
+            expect(registerNewUser).toHaveBeenCalledWith("jane@example.com", "Jane", "Doe", "test");
             expect(authenticateExistingUser).toHaveBeenCalledWith("jane@example.com", "test");
             expect(cookieMock).toHaveBeenCalledWith("SESSION_TOKEN", "test-token", expect.any(Object));
         })
