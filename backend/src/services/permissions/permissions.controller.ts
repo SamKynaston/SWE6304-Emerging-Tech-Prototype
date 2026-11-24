@@ -29,7 +29,7 @@ export const GET_ROLE = async ( Req: Request, Res: Response ) => {
             Error("ID not specified")
         }
 
-        const role = await RoleModel.findOne({
+        const role: Role = await RoleModel.findOne({
             where: {
                 id: Number(Req.params.id)
             },
@@ -39,7 +39,9 @@ export const GET_ROLE = async ( Req: Request, Res: Response ) => {
                     model: PermissionModel,
                     as: "permissions"
                 }
-            ]
+            ],
+
+            rejectOnEmpty: true,
         });
 
         return Res.status(200).json({ body: role, success: true })

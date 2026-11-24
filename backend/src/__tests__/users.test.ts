@@ -1,4 +1,4 @@
-import { GET_ALL_USERS } from "../services/user/user.controller";
+import { GET_ALL_USERS, GET_USER } from "../services/user/user.controller";
 import { Request, Response } from "express";
 import { UserModel } from "../models";
 
@@ -50,6 +50,18 @@ describe("User Controller", () => {
             await GET_ALL_USERS(mockRequest as Request, mockResponse as Response);
             expect(statusMock).toHaveBeenCalledWith(200);
             expect(jsonMock).toHaveBeenCalledWith({ body: mockUsers, success: true });
+        });
+    });
+
+    describe("GET_USER", () => {
+        it("Should return a specified user", async () => {
+            (UserModel.findOne as jest.Mock).mockResolvedValue(mockUsers[0]);
+
+            mockRequest.params = { id: "0" };
+
+            await GET_USER(mockRequest as Request, mockResponse as Response);
+            expect(statusMock).toHaveBeenCalledWith(200);
+            expect(jsonMock).toHaveBeenCalledWith({ body: mockUsers[0], success: true });
         });
     });
 })
