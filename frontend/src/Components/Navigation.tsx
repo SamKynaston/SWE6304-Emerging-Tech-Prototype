@@ -1,0 +1,44 @@
+import { Link } from "react-router-dom";
+import type { NavigationProps } from "@prototype/types";
+import { useAuth } from "../Context/Authentication";
+import icon from "../../public/logo.svg";
+
+function Navigation({ }: NavigationProps) {
+  const { authenticated, hasPermission } = useAuth() as any;
+
+  return (
+    <div className="Navigation">
+      <div className="Navigation-Start">
+        <Link to={"/"} key={"/"} className="Navigation-Button">
+          <img
+              src={icon}
+              alt="Library"
+              className="Navigation-Icon"
+            />
+        </Link>
+
+        {/*<div className="Navigation-Button w-full justify-start">
+          <button className="w-full"></button>
+        </div>*/}
+      </div>
+
+      <div className="Navigation-End">
+        {
+          // If an administrator, then add the dashboard to their navigiation
+          hasPermission("ADMINISTRATOR") ? (
+            <Link to="/dashboard" className="Navigation-Button">
+              <i className="fa-solid fa-wrench"></i>
+            </Link>
+          ) : null
+        }
+
+        { /* If signed in, then show "Account" as opposed to "Sign Up", alongside a solid user icon */ }
+        <Link to={authenticated ? "/account" : "/login"} className="Navigation-Button">
+          {authenticated ? <i className="fa-solid fa-user"></i> : <i className="fa-regular fa-user"></i>}
+        </Link>
+      </div>
+    </div>
+  );
+}
+
+export default Navigation;

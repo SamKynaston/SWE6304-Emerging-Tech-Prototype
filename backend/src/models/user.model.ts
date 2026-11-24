@@ -15,10 +15,10 @@ export class UserModel extends Model implements User {
   declare email: string;
   declare name: string;
   declare password: string;
-  declare must_reset_password: Boolean;
+  declare must_reset_password: boolean;
+  declare can_be_signed_into: boolean;
   declare dob: Date;
-  declare roleId: ForeignKey<RoleModel["id"]>;
-
+  declare role: RoleModel;
   declare setRole: BelongsToSetAssociationMixin<RoleModel, number>;
 }
 
@@ -53,7 +53,12 @@ UserModel.init(
     must_reset_password: {
       type: DataTypes.BOOLEAN,
       defaultValue: false,
-    }
+    },
+
+    can_be_signed_into: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: true,
+    },
   },
 
   {
