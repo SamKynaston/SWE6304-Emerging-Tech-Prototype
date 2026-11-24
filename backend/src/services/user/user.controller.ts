@@ -30,13 +30,17 @@ export const GET_ALL_USERS = async ( Req: Request, Res: Response ) => {
 
 export const GET_USER = async ( Req: Request, Res: Response ) => {
     try {
-        if (!Req.params.id) {
-            Error("ID not specified")
+        const id = Req.params.id === undefined ? Req.user?.id : Number(Req.params.id);
+        if (id === undefined) {
+            return Res.status(401).json({ body: null, success: false });
+        }
+        if (!Number.isSafeInteger(id) || id < 0) {
+            return Res.status(400).json({ body: null, success: false });
         }
 
-        const user: User = await UserModel.findOne({
+        const user = await UserModel.findOne({
             where: {
-                id: Number(Req.params.id)
+                id
             },
             
             attributes: { exclude: ["password"] }, // ALWAYS exclude the hashed password
@@ -47,11 +51,15 @@ export const GET_USER = async ( Req: Request, Res: Response ) => {
                 }
             ],
 
-            rejectOnEmpty: true,
         });
+
+        if (!user) {
+            return Res.status(404).json({ body: null, success: false });
+        }
 
         return Res.status(200).json({ body: user, success: true })
     } catch (exc) {
+        console.log(exc)
         return Res.status(500).json({ body: null, success: false })
     }
 }
@@ -73,5 +81,42 @@ export const CREATE_USER = async ( Req: Request, Res: Response) => {
         return Res.status(201).json({ success: true })
     } catch (exc) {
         return Res.status(500).json({ success: false })
+    }
+}
+
+export const AUTHENTICATE_USER = async (req: Request, res: Response) => {
+    try {
+        // Get their email and password from the request's body
+        const { email, password } = req.body;
+
+        let token = await authenticateExistingUser(email, password);
+
+        res.cookie(process.env.SESSION_TOKEN_NAME || "SESSION_TOKEN", token, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === "production",
+            sameSite: "lax", 
+            path: "/",
+        });
+
+        // Return success
+        res.status(200).json({ success: true });
+    } catch (error) {
+        res.status(500).json({ success: false, message: "Incorrect credentials" });
+    }
+};
+
+export const LOGOUT_USER = async (req: Request, res: Response) => {
+    try {
+        res.clearCookie(process.env.SESSION_TOKEN_NAME || "SESSION_TOKEN", {
+            httpOnly: true,
+            secure: false,
+            sameSite: "lax", 
+            path: "/",
+        });
+
+        // Return a success
+        res.status(200).json({ success: true });
+    } catch (err) {
+        res.status(500).json({ success: false });
     }
 }

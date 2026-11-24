@@ -79,6 +79,15 @@ describe("User Controller", () => {
             expect(statusMock).toHaveBeenCalledWith(200);
             expect(jsonMock).toHaveBeenCalledWith({ body: mockUsers[0], success: true });
         });
+
+        it("Should reject a non-numeric user id without querying the database", async () => {
+            mockRequest.params = { id: "not-a-number" };
+
+            await GET_USER(mockRequest as Request, mockResponse as Response);
+
+            expect(statusMock).toHaveBeenCalledWith(400);
+            expect(UserModel.findOne).not.toHaveBeenCalled();
+        });
     });
 
     describe("CREATE_USER", () => {

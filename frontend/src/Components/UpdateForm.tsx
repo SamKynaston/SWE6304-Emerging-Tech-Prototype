@@ -35,15 +35,11 @@ export const UpdateForm = ({ id }: UpdateFormType ) => {
     }
     
     return (
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} className="flex flex-col gap-3">
             <input value={forename} onChange={(e) => setForename(e.target.value)} placeholder="Account forename" required={true}></input>
-            <br />
             <input value={surname} onChange={(e) => setSurname(e.target.value)} placeholder="Account surname" required={true}></input>
-            <br />
             <input value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Account email" required={true}></input>
-            <br />
             <input onChange={(e) => setPassword(e.target.value)} placeholder="Password" type="password"></input>
-            <br />
             <button type="submit">Signup</button>
         </form>
     );

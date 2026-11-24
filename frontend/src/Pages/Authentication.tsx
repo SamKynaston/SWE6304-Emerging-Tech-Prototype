@@ -28,9 +28,9 @@ function AuthenticationPage({ }: AuthenticationPageProps) {
         </>
       )}
 
-      <button type="button" onClick={() => onSignupPage((current) => !current)}>
+      <a onClick={() => onSignupPage((current) => !current)}>
         {isOnSignupPage ? "Sign in" : "Create an account"}
-      </button>
+      </a>
     </Page>
   );
 }

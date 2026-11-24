@@ -2,11 +2,11 @@
 @tailwind utilities;
 
 body {
-    @apply bg-stone-900 text-gray-300 text-center md:text-left;
+    @apply md:bg-stone-900 md:text-gray-300 text-center md:text-left;
 }
 
 .Content {
-    @apply w-full px-2 py-2 md:px-4 md:py-4 mx-auto flex flex-col items-center text-gray-900 bg-stone-100;
+    @apply w-full px-2 py-2 md:px-4 md:py-4 mx-auto flex flex-col items-center md:text-gray-900 md:bg-stone-100;
 }
 
 .Navigation {
@@ -66,7 +66,7 @@ body {
 }
 
 a {
-    @apply underline;
+    @apply underline p-4;
 }
 
 a:hover {
