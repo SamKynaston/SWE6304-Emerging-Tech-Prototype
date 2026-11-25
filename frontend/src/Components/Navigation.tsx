@@ -4,10 +4,21 @@ import type { NavigationProps } from "@prototype/types";
 import { useAuth } from "../Context/Authentication";
 import icon from "../../public/logo.svg";
 import { Modal } from "./Modal";
+import { logout } from "../Services/Users.service";
 
 function Navigation({ }: NavigationProps) {
   const { authenticated, hasPermission } = useAuth() as any;
   const [accountMenuOpen, setAccountMenuOpen] = useState(false);
+
+  const handleLogout = async () => {
+    try {
+      if (await logout()) {
+        window.location.reload();
+      }
+    } catch (error) {
+      alert("Unable to log out. Please try again.");
+    }
+  };
 
   return (
     <div className="Navigation">
@@ -57,6 +68,9 @@ function Navigation({ }: NavigationProps) {
                 <Link role="menuitem" to="/account/chat" onClick={() => setAccountMenuOpen(false)}>
                   Chatbot (PROTOTYPE)
                 </Link>
+                <a role="menuitem" onClick={handleLogout}>
+                  Log out
+                </a>
               </div>
             )}
           </>
