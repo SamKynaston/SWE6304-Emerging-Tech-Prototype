@@ -19,8 +19,7 @@ interface WebSocketSetupOptions {
 }
 
 export const getWebSocketUrl = (endPoint: string): string | null => {
-  const apiUrl = import.meta.env.VITE_API_URL?.trim();
-  if (!apiUrl) return null;
+  const apiUrl = import.meta.env.VITE_API_URL?.trim() || window.location.origin;
 
   try {
     const url = new URL(apiUrl, window.location.href);

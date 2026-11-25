@@ -1,10 +1,13 @@
 import { Link } from "react-router-dom";
+import { useState } from "react";
 import type { NavigationProps } from "@prototype/types";
 import { useAuth } from "../Context/Authentication";
 import icon from "../../public/logo.svg";
+import { Modal } from "./Modal";
 
 function Navigation({ }: NavigationProps) {
   const { authenticated, hasPermission } = useAuth() as any;
+  const [accountMenuOpen, setAccountMenuOpen] = useState(false);
 
   return (
     <div className="Navigation">
@@ -33,9 +36,31 @@ function Navigation({ }: NavigationProps) {
         }
 
         { /* If signed in, then show "Account" as opposed to "Sign Up", alongside a solid user icon */ }
-        <Link to={authenticated ? "/account" : "/login"} className="Navigation-Button">
-          {authenticated ? <i className="fa-solid fa-user"></i> : <i className="fa-regular fa-user"></i>}
-        </Link>
+        { !authenticated ? (
+          <Link to={"/login"} className="Navigation-Button">
+            <i className="fa-regular fa-user"></i>
+          </Link>
+        ) : (
+          <>
+            <button type="button" className="Navigation-Button border-0 bg-transparent text-current" aria-label="Sign in" onClick={() => setAccountMenuOpen((open) => !open)}>
+              <i className="fa-solid fa-user" />
+            </button>
+
+            {accountMenuOpen && (
+              <div className="Navigation-AccountMenu" role="menu">
+                <Link role="menuitem" to="/account" onClick={() => setAccountMenuOpen(false)}>
+                  Account
+                </Link>
+                <Link role="menuitem" to="/account/edit" onClick={() => setAccountMenuOpen(false)}>
+                  Edit account
+                </Link>
+                <Link role="menuitem" to="/account/chat" onClick={() => setAccountMenuOpen(false)}>
+                  Chatbot (PROTOTYPE)
+                </Link>
+              </div>
+            )}
+          </>
+        )}
       </div>
     </div>
   );

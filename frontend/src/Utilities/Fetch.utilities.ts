@@ -1,7 +1,8 @@
 import { errorMessages } from "./Error.utilities";
 
 export const apiFetch = async (endPoint: string, parameters: RequestInit = {} ): Promise<Response> => {
-    const apiUrl = import.meta.env.VITE_API_URL;
+    const apiUrl = (import.meta.env.VITE_API_URL?.trim() || window.location.origin).replace(/\/+$/, "");
+    const normalizedEndpoint = endPoint.replace(/^\/+/, "");
     const config: RequestInit = {
         ...parameters,
         credentials: 'include',
@@ -11,7 +12,7 @@ export const apiFetch = async (endPoint: string, parameters: RequestInit = {} ):
         }
     }
 
-    return await fetch(`${apiUrl}/${endPoint}`, config)
+    return await fetch(`${apiUrl}/${normalizedEndpoint}`, config)
 }
 
 export const handleResponse = async <T = any>(res: Response): Promise<T> => {
