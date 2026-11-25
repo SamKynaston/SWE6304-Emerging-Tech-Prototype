@@ -1,8 +1,7 @@
 import Page from "../Components/Page";
 import { useAuth } from "../Context/Authentication";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
-import { UserTable } from "../Components/UserTable";
 import { MessageForm } from "../Components/Message";
 import {
   sendWebSocketMessage,
@@ -10,6 +9,8 @@ import {
   type WebSocketConnectionStatus,
   type WebSocketResponse,
 } from "../Utilities/Websocket.utilities";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 
 // Home Page for authenticated users. Will show their favourited books using the BookBtn component, alongside how much stock there is.
 
@@ -47,21 +48,24 @@ function ChatPage({ }: ChatPageProps) {
 
   return (
     <Page requiresAccount={true}>
-      <>
-        <h1>College Chatbot</h1>
-      </>
+        <>
+            <h1>College Chatbot</h1>
+        </>
 
-      <>
-          <p>Chat: {connectionStatus}</p>
-          
-          <ul aria-live="polite" className="flex flex-col gap-4">
+        <>
+            <p>Chat: {connectionStatus}</p>
+            
+            <ul aria-live="polite" className="flex flex-col gap-4">
             {messages.map((message, index) => (
-              <li key={`${index}-${message}`}>{message}</li>
+                <li key={`${index}-${message}`}>
+                    <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                        {message}
+                    </ReactMarkdown>
+                </li>
             ))}
-          </ul>
+            </ul>
 
-          <MessageForm onSendMessage={sendMessage} disabled={connectionStatus !== "Connected"}/>
-          <></>
+            <MessageForm onSendMessage={sendMessage} disabled={connectionStatus !== "Connected"}/>
         </>
     </Page>
   );
