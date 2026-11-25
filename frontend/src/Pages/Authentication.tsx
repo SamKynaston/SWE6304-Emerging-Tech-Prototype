@@ -14,17 +14,13 @@ function AuthenticationPage({ }: AuthenticationPageProps) {
     <Page>
       {isOnSignupPage ? (
         <>
-          <div className="text-center w-full">
-            <h1 className="text-2xl mb-2">Create your new account</h1>
-            <SignupForm />
-          </div>
+          <h1>Create your new account</h1>
+          <SignupForm />
         </>
       ) : (
         <>
-          <div className="text-center w-full">
-            <h1 className="text-2xl mb-2">Sign into your account</h1>
-            <AuthenticationForm />
-          </div>
+          <h1>Sign into your account</h1>
+          <AuthenticationForm />
         </>
       )}
 
