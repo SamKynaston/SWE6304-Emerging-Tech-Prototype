@@ -14,7 +14,7 @@ body {
 }
 
 .Navigation {
-    @apply px-24 md:flex md:justify-between md:items-stretch sm:sticky md:top-0 md:z-100;
+    @apply px-24 md:flex md:justify-between md:items-stretch sm:sticky md:top-0 md:z-100 md:bg-stone-900 md:text-gray-300;
 }
 
 .MobileNavigationWrapper {
