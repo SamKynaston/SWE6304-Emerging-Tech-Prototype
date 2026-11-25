@@ -2,11 +2,15 @@
 @tailwind utilities;
 
 body {
-    @apply md:bg-stone-900 md:text-gray-300 text-left md:text-left;
+    @apply md:bg-stone-900 md:text-gray-300 text-center md:text-left;
 }
 
 .Content {
-    @apply w-full px-2 py-2 md:px-4 md:py-4 md:gap-4 mx-auto flex flex-col md:text-gray-900 md:bg-stone-100;
+    @apply md:text-gray-900 md:bg-stone-100;
+}
+
+.Content .Content-Inner {
+    @apply w-full px-2 py-2 mx-auto flex flex-col md:max-w-6xl md:px-4 md:py-4 gap-4;
 }
 
 .Navigation {

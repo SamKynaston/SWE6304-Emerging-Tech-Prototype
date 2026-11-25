@@ -15,7 +15,7 @@ function Page({ children, requiresAccount, requiredPermission, allowPasswordRese
         return <Navigate to="/password-reset" replace />;
       }
 
-      return <div className="Content">{children}</div>;
+      return <div className="Content"><div className="Content-Inner">{children}</div></div>;
     }
 
     // If an account requires a page and the user isn't currently signed in, then navigate to login
@@ -32,7 +32,7 @@ function Page({ children, requiresAccount, requiredPermission, allowPasswordRese
       }
     }
       
-    return <div className="Content">{children}</div>;
+    return <div className="Content"><div className="Content-Inner">{children}</div></div>;
   }
   
   return null;
