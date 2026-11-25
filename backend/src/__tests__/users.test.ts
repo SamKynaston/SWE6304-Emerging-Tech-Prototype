@@ -8,6 +8,7 @@ import {
 import { Request, Response } from "express";
 import { UserModel } from "../models/user.model";
 import { authenticateExistingUser, registerNewUser } from "../utils/user";
+import { UserCreationSchema } from "../services/user/user.schema";
 
 jest.mock("../models/user.model", () => ({
     __esModule: true,
@@ -132,21 +133,34 @@ describe("User Controller", () => {
     });
 
     describe("CREATE_USER", () => {
+        it("Should reject signup data without a date of birth", () => {
+            const result = UserCreationSchema.safeParse({
+                email: "jane@example.com",
+                forename: "Jane",
+                surname: "Doe",
+                password: "test",
+            });
+
+            expect(result.success).toBe(false);
+        });
+
         it("Should create a new user and then return it", async () => {
             (registerNewUser as jest.Mock).mockResolvedValue(undefined);
             (authenticateExistingUser as jest.Mock).mockResolvedValue("test-token");
 
+            const dob = new Date("1990-01-01T00:00:00.000Z");
             mockRequest.body = {
                 email: "jane@example.com",
                 forename: "Jane",
                 surname: "Doe",
                 password: "test",
+                dob,
             };
 
             await CREATE_USER(mockRequest as Request, mockResponse as Response);
             expect(statusMock).toHaveBeenCalledWith(201);
             expect(jsonMock).toHaveBeenCalledWith({ success: true });
-            expect(registerNewUser).toHaveBeenCalledWith("jane@example.com", "Jane", "Doe", "test");
+            expect(registerNewUser).toHaveBeenCalledWith("jane@example.com", "Jane", "Doe", "test", dob);
             expect(authenticateExistingUser).toHaveBeenCalledWith("jane@example.com", "test");
             expect(cookieMock).toHaveBeenCalledWith("SESSION_TOKEN", "test-token", expect.any(Object));
         })

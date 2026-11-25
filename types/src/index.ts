@@ -1,6 +1,7 @@
 export * from "./User"
 export * from "./Role"
 export * from "./Chat"
+export * from "./Message"
 export * from "./Course"
 export * from "./Room"
 export * from "./Permission"

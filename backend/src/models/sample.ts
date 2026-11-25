@@ -4,10 +4,10 @@ import { PermissionModel } from "./permission.model";
 
 export async function seedSampleData() {
     const sampleUsers = await Promise.all([
-        { id: 0, email: "*", forename: "Internal", surname: "System", password: "2eewe", dob: Date.now(), must_reset_password: false, can_be_signed_into: false, },
-        { id: 1, email: "sam.kynaston@kynno.co.uk", forename: "Sam", surname: "Kynaston", password: "test", dob: Date.now(), must_reset_password: false },
-        { id: 2, email: "john.doe@kynno.co.uk", forename: "John", surname: "Doe", password: "test", dob: Date.now(), must_reset_password: true },
-        { id: 3, email: "jane.doe@kynno.co.uk", forename: "Jane", surname: "Doe", password: "test", dob: Date.now(), must_reset_password: false },
+        { email: "*", forename: "Internal", surname: "System", password: "2eewe", dob: Date.now(), must_reset_password: false, can_be_signed_into: false, },
+        { email: "sam.kynaston@kynno.co.uk", forename: "Sam", surname: "Kynaston", password: "test", dob: Date.now(), must_reset_password: false },
+        { email: "john.doe@kynno.co.uk", forename: "John", surname: "Doe", password: "test", dob: Date.now(), must_reset_password: true },
+        { email: "jane.doe@kynno.co.uk", forename: "Jane", surname: "Doe", password: "test", dob: Date.now(), must_reset_password: false },
     ].map(async (user) => {
         const [instance] = await UserModel.findOrCreate({
             where: { email: user.email },
@@ -31,9 +31,9 @@ export async function seedSampleData() {
     }));
 
     const sampleRoles = await Promise.all([
-        { id: 0, name: "Root"},
-        { id: 1, name: "User" },
-        { id: 2, name: "Admin" },
+        { name: "Root"},
+        { name: "User" },
+        { name: "Admin" },
     ].map(async (role) => {
         const [instance] = await RoleModel.findOrCreate({
             where: { name: role.name },

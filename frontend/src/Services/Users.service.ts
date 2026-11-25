@@ -92,7 +92,7 @@ export async function requestPasswordReset(): Promise<{ success: boolean, token:
 }
 
 // Calls the API to create a new user account
-export async function signup(email: string, forename: string, surname: string, password: string): Promise<boolean> {
+export async function signup(email: string, forename: string, surname: string, password: string, dob: string): Promise<boolean> {
     const data = await handleResponse<{ success: boolean }>(
         await apiFetch(`v1/users`, {
             method: "POST",
@@ -100,7 +100,8 @@ export async function signup(email: string, forename: string, surname: string, p
                 email: email, 
                 forename: forename, 
                 surname: surname,
-                password: password 
+                password: password,
+                dob: dob,
             }),
         })
     );

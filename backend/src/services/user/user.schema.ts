@@ -10,4 +10,5 @@ export const UserCreationSchema = zod.object({
     forename: zod.string(),
     surname: zod.string(),
     password: zod.string(),
+    dob: zod.coerce.date(),
 }).strict();

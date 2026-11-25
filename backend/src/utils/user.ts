@@ -3,10 +3,10 @@ import { RoleModel } from "../models/role.model";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
-export const registerNewUser = async (email: string, forename: string, surname: string, password: string) => {
+export const registerNewUser = async (email: string, forename: string, surname: string, password: string, dob: Date) => {
     // Create the user in the database
     // NOTE: The model automatically hashes the password upon creation and all future updates
-    const user = await UserModel.create({ email: email, forename: forename, surname: surname, password: password });
+    const user = await UserModel.create({ email: email, forename: forename, surname: surname, password: password, dob: dob });
     
     // Gets the default user role. 
     const userRole = await RoleModel.findOne({
