@@ -13,7 +13,6 @@ export const UpdateForm = ({ id }: UpdateFormType ) => {
     const [forename, setForename] = useState(user?.forename || "");
     const [surname, setSurname] = useState(user?.surname || "");
     const [email, setEmail] = useState(user?.email || "");
-    const [password, setPassword] = useState("");
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -35,12 +34,25 @@ export const UpdateForm = ({ id }: UpdateFormType ) => {
     }
     
     return (
-        <form onSubmit={handleSubmit} className="flex flex-col gap-3">
-            <input value={forename} onChange={(e) => setForename(e.target.value)} placeholder="Account forename" required={true}></input>
-            <input value={surname} onChange={(e) => setSurname(e.target.value)} placeholder="Account surname" required={true}></input>
-            <input value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Account email" required={true}></input>
-            <input onChange={(e) => setPassword(e.target.value)} placeholder="Password" type="password"></input>
-            <button type="submit">Signup</button>
+        <form onSubmit={handleSubmit} className="flex flex-col gap-5">
+            <div className="flex gap-3">
+                <span className="w-full">
+                    <p>First Name</p>
+                    <input value={forename} onChange={(e) => setForename(e.target.value)} placeholder="Account forename" required={true}></input>
+                </span>
+                
+                <span className="w-full">
+                    <p>Surname</p>
+                    <input value={surname} onChange={(e) => setSurname(e.target.value)} placeholder="Account surname" required={true}></input>
+                </span>
+            </div>
+            
+            <span>
+                <p>Email</p>
+                <input value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Account email" required={true}></input>
+            </span>
+
+            <button type="submit">Confirm</button>
         </form>
     );
 };

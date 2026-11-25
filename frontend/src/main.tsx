@@ -18,6 +18,7 @@ import Error from "./Pages/Error";
 import Footer from "./Components/Footer";
 import AccountPage from "./Pages/Account";
 import AuthenticationPage from "./Pages/Authentication";
+import AccountEditPage from "./Pages/AccountEdit";
 
 import MobileNavigation from "./Components/MobileNavigation";
 import { checkAuth, AuthProvider, useAuth } from "./Context/Authentication";
@@ -53,6 +54,7 @@ const App: React.FC = () => {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/account" element={<AccountPage />} />
+            <Route path="/account/edit" element={<AccountEditPage />} />
             <Route path="/login" element={<AuthenticationPage />} />
             <Route path="/password-reset" element={<PasswordResetPage />} />
             <Route path="*" element={<Error code={404} />} />

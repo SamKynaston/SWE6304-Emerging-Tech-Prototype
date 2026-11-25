@@ -49,7 +49,7 @@ function Home({ }: HomeProps) {
       <>
         <h1>🚧 UNDER CONSTRUCTION 🚧</h1>
       </>
-      {!user ? (
+      {/*!user ? (
         <>
           <p>Chat: {connectionStatus}</p>
           <MessageForm
@@ -64,7 +64,7 @@ function Home({ }: HomeProps) {
           <Link to="/login">Sign in to see your favourites!</Link>
           <></>
         </>
-      ) : ( <> <UserTable /> </> )}
+      ) : ( <> <UserTable /> </> )*/}
     </Page>
   );
 };
