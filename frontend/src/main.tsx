@@ -22,6 +22,7 @@ import AccountEditPage from "./Pages/AccountEdit";
 import ChatPage from "./Pages/Chat";
 import PasswordResetPage from "./Pages/PasswordReset";
 import AdminHome from "./Pages/Admin/Home";
+import TimetablePage from "./Pages/Timetable";
 
 // Admin
 import AdminAccountPage from "./Pages/Admin/AdminAccountManagement";
@@ -64,7 +65,7 @@ const App: React.FC = () => {
 
             <Route path="/account" element={<AccountPage />} />
             <Route path="/account/edit" element={<AccountEditPage />} />
-            <Route path="/account/timetable" element={<Home />} />
+            <Route path="/account/timetable" element={<TimetablePage />} />
             <Route path="/account/courses" element={<Home />} />
             <Route path="/account/chat" element={<ChatPage />} />
 

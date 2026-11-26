@@ -15,3 +15,12 @@ export interface RoomAssignment {
     startTime: Date;
     endTime: Date;
 }
+
+export interface TimetableEvent {
+  id: number;
+  day: 1 | 2 | 3 | 4 | 5;
+  startMinute: number;
+  endMinute: number;
+  moduleName: string;
+  roomName: string;
+};
