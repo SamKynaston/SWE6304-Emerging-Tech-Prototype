@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import type { NavigationProps } from "@prototype/types";
 import { useAuth } from "../Context/Authentication";
 import icon from "../../public/logo.svg";
@@ -9,6 +9,7 @@ import { logout } from "../Services/Users.service";
 function Navigation({ }: NavigationProps) {
   const { authenticated, hasPermission } = useAuth() as any;
   const [accountMenuOpen, setAccountMenuOpen] = useState(false);
+  const accountMenuRef = useRef<HTMLDivElement>(null);
 
   const handleLogout = async () => {
     try {
@@ -19,6 +20,21 @@ function Navigation({ }: NavigationProps) {
       alert("Unable to log out. Please try again.");
     }
   };
+
+  useEffect(() => {
+    const closeOnOutsideClick = (event: PointerEvent) => {
+      if (
+        event.target instanceof Node &&
+        accountMenuRef.current &&
+        !accountMenuRef.current.contains(event.target)
+      ) {
+        setAccountMenuOpen(false);
+      }
+    };
+
+    document.addEventListener("pointerdown", closeOnOutsideClick);
+    return () => document.removeEventListener("pointerdown", closeOnOutsideClick);
+  }, []);
 
   return (
     <div className="Navigation">
@@ -52,7 +68,7 @@ function Navigation({ }: NavigationProps) {
             <i className="fa-regular fa-user"></i>
           </Link>
         ) : (
-          <>
+          <div ref={accountMenuRef}>
             <button type="button" className="Navigation-Button border-0 bg-transparent text-current" aria-label="Sign in" onClick={() => setAccountMenuOpen((open) => !open)}>
               <i className="fa-solid fa-user" />
             </button>
@@ -73,7 +89,7 @@ function Navigation({ }: NavigationProps) {
                 </a>
               </div>
             )}
-          </>
+          </div>
         )}
       </div>
     </div>
