@@ -68,7 +68,8 @@ export const UpdateForm = ({ id }: UpdateFormType ) => {
 
             <ConfirmationModal
                 open={confirmationOpen}
-                text="Please confirm these changes."
+                title="Confirm changes"
+                text="Are you sure that you want to save these changes to your account?"
                 onClose={() => setConfirmationOpen(false)}
                 onConfirm={handleConfirm}
             />

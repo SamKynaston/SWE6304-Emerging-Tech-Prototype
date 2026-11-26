@@ -89,6 +89,10 @@ h3 {
     @apply text-xl;
 }
 
+p {
+    @apply text-lg
+}
+
 div .Books {
     @apply pb-20 md:pb-0 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-2 md:gap-4 items-start justify-items-center w-full lg:max-w-3/4 mx-auto text-left;
 }
@@ -149,8 +153,16 @@ form {
     @apply w-full
 }
 
-form input, form button, .SearchInput {
-    @apply mb-0 p-2 bg-stone-900 border border-stone-700 placeholder-gray-400 text-gray-100 shadow-none rounded-xl text-lg pl-4 w-full justify-center;
+form input, form button, button:not(.Navigation-Button), .SearchInput {
+    @apply mb-0 p-2 bg-stone-900 border border-stone-600 placeholder-gray-400 text-gray-100 shadow-none rounded-xl text-lg pl-4 w-full justify-center;
+}
+
+button.confirmation {
+    @apply bg-sky-400;
+}
+
+button.cancel {
+    @apply bg-rose-600;
 }
 
 .SearchWrapper input, .SearchWrapper button {

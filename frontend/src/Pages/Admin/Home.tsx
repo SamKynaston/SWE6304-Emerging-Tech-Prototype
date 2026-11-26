@@ -10,7 +10,7 @@ interface AdminHomeProps {
 function AdminHome({ }: AdminHomeProps) {
   return (
     <Page>
-        <h1>Admin Dashboard</h1>
+        <h1>Administrator Dashboard</h1>
         <span className="flex flex-col gap-2">
           <h2>Suggested Actions</h2>
           <Link to="/admin/accounts"><i className="fa-regular fa-circle-right" /> Account Management</Link>

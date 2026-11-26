@@ -78,7 +78,7 @@ export const Message = () => {
 
             <form onSubmit={handleSubmit} className="grid grid-cols-3 gap-4 stone bg-stone-900 rounded-b-xl p-2">
                 <input className="col-span-2" value={text} onChange={(event) => setText(event.target.value)} placeholder="Type a message" required disabled={connectionStatus !== "Connected"}/>
-                <button type="submit" disabled={connectionStatus !== "Connected"}>Send</button>
+                <button type="submit" className="confirmation" disabled={connectionStatus !== "Connected"}>Send</button>
             </form>
         </section>
     );
