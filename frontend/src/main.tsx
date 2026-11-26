@@ -58,12 +58,15 @@ const App: React.FC = () => {
 
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/account" element={<AccountPage />} />
-            <Route path="/account/edit" element={<AccountEditPage />} />
-            <Route path="/account/chat" element={<ChatPage />} />
             <Route path="/login" element={<AuthenticationPage />} />
             <Route path="/password-reset" element={<PasswordResetPage />} />
             <Route path="*" element={<Error code={404} />} />
+
+            <Route path="/account" element={<AccountPage />} />
+            <Route path="/account/edit" element={<AccountEditPage />} />
+            <Route path="/account/timetable" element={<Home />} />
+            <Route path="/account/courses" element={<Home />} />
+            <Route path="/account/chat" element={<ChatPage />} />
 
             <Route path="/admin" element={<AdminHome />} />
             <Route path="/admin/accounts" element={<AdminAccountPage />} />
