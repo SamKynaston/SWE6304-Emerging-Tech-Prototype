@@ -70,11 +70,11 @@ body {
 }
 
 a {
-    @apply underline p-4;
+    @apply no-underline;
 }
 
 a:hover {
-    @apply text-blue-400;
+    @apply text-blue-400 underline;
 }
 
 h1 {

@@ -57,10 +57,12 @@ export const CHECK_AUTHENTICATION = async ( Req: Request, Res: Response ) => {
 
 export const GET_USER = async ( Req: Request, Res: Response ) => {
     try {
-        const id = Req.params.id === undefined ? Req.user?.id : Number(Req.params.id);
+        const id = Number(Req.params.id);
+
         if (id === undefined) {
-            return Res.status(401).json({ body: null, success: false });
+            return Res.status(400).json({ body: null, success: false });
         }
+
         if (!Number.isSafeInteger(id) || id < 0) {
             return Res.status(400).json({ body: null, success: false });
         }

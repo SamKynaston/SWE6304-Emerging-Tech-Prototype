@@ -106,20 +106,8 @@ describe("User Controller", () => {
         it("Should reject requests without an id or authenticated user", async () => {
             await GET_USER(mockRequest as Request, mockResponse as Response);
 
-            expect(statusMock).toHaveBeenCalledWith(401);
+            expect(statusMock).toHaveBeenCalledWith(400);
             expect(UserModel.findOne).not.toHaveBeenCalled();
-        });
-
-        it("Should use the authenticated user's id when no route id is provided", async () => {
-            (UserModel.findOne as jest.Mock).mockResolvedValue(mockUsers[0]);
-            mockRequest.user = { id: 12 } as NonNullable<Request["user"]>;
-
-            await GET_USER(mockRequest as Request, mockResponse as Response);
-
-            expect(UserModel.findOne).toHaveBeenCalledWith(expect.objectContaining({
-                where: { id: 12 },
-            }));
-            expect(statusMock).toHaveBeenCalledWith(200);
         });
 
         it("Should return 404 when the requested user does not exist", async () => {

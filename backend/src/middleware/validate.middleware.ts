@@ -68,7 +68,7 @@ export const IS_USER_AUTHENTICATED = async ( req: Request, res: Response, next: 
 
         // Get the user from the decoded token's username and email, including their roles and permissions
         const user = await UserModel.findOne({
-            where: { id: decoded.id },
+            where: { email: decoded.email },
             attributes: { exclude: ["password"] },
         })
 

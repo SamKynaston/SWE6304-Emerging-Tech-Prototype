@@ -21,6 +21,7 @@ import AuthenticationPage from "./Pages/Authentication";
 import AccountEditPage from "./Pages/AccountEdit";
 import ChatPage from "./Pages/Chat";
 import PasswordResetPage from "./Pages/PasswordReset";
+import AdminHome from "./Pages/Admin/Home";
 
 // Admin
 import AdminAccountPage from "./Pages/Admin/AdminAccountManagement";
@@ -60,10 +61,15 @@ const App: React.FC = () => {
             <Route path="/account" element={<AccountPage />} />
             <Route path="/account/edit" element={<AccountEditPage />} />
             <Route path="/account/chat" element={<ChatPage />} />
-            <Route path="/admin/accounts" element={<AdminAccountPage />} />
             <Route path="/login" element={<AuthenticationPage />} />
             <Route path="/password-reset" element={<PasswordResetPage />} />
             <Route path="*" element={<Error code={404} />} />
+
+            <Route path="/admin" element={<AdminHome />} />
+            <Route path="/admin/accounts" element={<AdminAccountPage />} />
+            <Route path="/admin/model" element={<Home />} />
+            <Route path="/admin/modules" element={<Home />} />
+            <Route path="/admin/courses" element={<Home />} />
           </Routes>
 
           {isMobileDevice && <MobileNavigation />}

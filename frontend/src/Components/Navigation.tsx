@@ -56,7 +56,7 @@ function Navigation({ }: NavigationProps) {
         {
           // If an administrator, then add the dashboard to their navigiation
           hasPermission("ADMINISTRATOR") ? (
-            <Link to="/dashboard" className="Navigation-Button">
+            <Link to="/admin" className="Navigation-Button">
               <i className="fa-solid fa-wrench"></i>
             </Link>
           ) : null
