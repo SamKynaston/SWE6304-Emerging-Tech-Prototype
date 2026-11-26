@@ -2,7 +2,7 @@ import { User } from "@prototype/types";
 import { apiFetch, handleResponse } from "../Utilities/Fetch.utilities";
 
 // Calls the API to update a user's email or username
-export async function updateUser(email: string, forename: string, surname: string, id: number): Promise<boolean> {
+export async function updateUser(email: string, forename: string, surname: string, id: number, dob?: string): Promise<boolean> {
     const data = await handleResponse<{ success: boolean, body: User }>(
         await apiFetch(`v1/users/${id}`, {
             method: "PUT",
@@ -10,6 +10,7 @@ export async function updateUser(email: string, forename: string, surname: strin
                 email: email, 
                 forename: forename, 
                 surname: surname,
+                dob: dob,
             }),
         })
     )

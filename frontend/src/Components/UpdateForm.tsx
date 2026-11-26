@@ -13,6 +13,7 @@ export const UpdateForm = ({ id }: UpdateFormType ) => {
     const [forename, setForename] = useState(user?.forename || "");
     const [surname, setSurname] = useState(user?.surname || "");
     const [email, setEmail] = useState(user?.email || "");
+    const [dob, setDob] = useState(user?.dob ? new Date(user.dob).toISOString().slice(0, 10) : "");
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -23,7 +24,7 @@ export const UpdateForm = ({ id }: UpdateFormType ) => {
                     id = user.id
                 }
                 
-                if (await updateUser(email, forename, surname, id)) {
+                if (await updateUser(email, forename, surname, id, dob)) {
                     await refreshUser()
                 }; 
             } catch (err) {
@@ -50,6 +51,11 @@ export const UpdateForm = ({ id }: UpdateFormType ) => {
             <span>
                 <p>Email</p>
                 <input value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Account email" required={true}></input>
+            </span>
+
+            <span>
+                <p>Date of Birth</p>
+                <input value={dob} onChange={(e) => setDob(e.target.value)} type="date" required={true} aria-label="Date of birth"></input>
             </span>
 
             <button type="submit">Confirm</button>

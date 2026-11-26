@@ -2,7 +2,7 @@ import { AUTHENTICATE_USER, CREATE_USER, GET_ALL_USERS, GET_USER, LOGOUT_USER, U
 import { Request, Response, NextFunction } from "express";
 import { UserModel } from "../models/user.model";
 import { authenticateExistingUser, issueUserToken, registerNewUser, updateUser } from "../utils/user";
-import { UserCreationSchema } from "../services/user/user.schema";
+import { UserCreationSchema, UserUpdateSchema } from "../services/user/user.schema";
 import { OWNERSHIP_CHECK } from "../middleware/validate.middleware";
 
 jest.mock("../models", () => ({
@@ -168,6 +168,22 @@ describe("User Controller", () => {
             expect(authenticateExistingUser).toHaveBeenCalledWith("jane@example.com", "test");
             expect(cookieMock).toHaveBeenCalledWith("SESSION_TOKEN", "test-token", expect.any(Object));
         })
+    })
+
+    describe("UserUpdateSchema", () => {
+        it("Should coerce a date string to a Date", () => {
+            const result = UserUpdateSchema.safeParse({
+                email: "jane@example.com",
+                forename: "Jane",
+                surname: "Doe",
+                dob: "1990-01-01",
+            });
+
+            expect(result.success).toBe(true);
+            if (result.success) {
+                expect(result.data.dob).toEqual(new Date("1990-01-01"));
+            }
+        });
     })
 
     describe("OWNERSHIP_CHECK", () => {
