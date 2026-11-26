@@ -73,7 +73,7 @@ a {
     @apply no-underline;
 }
 
-a:hover {
+a:not(.Navigation-Button):hover {
     @apply text-blue-400 underline;
 }
 

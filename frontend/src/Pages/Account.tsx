@@ -15,7 +15,7 @@ function AccountManagementPage({ }: AccountManagementPageProps) {
       <span className="flex gap-3 flex-col md:flex-row">
         <span className="flex flex-col gap-2 md:grow">
           <h2>Suggested Actions</h2>
-          <Link to="/account/edit"><i className="fa-regular fa-circle-right" /> Edit your account</Link>
+          <Link to="/account/edit"><i className="fa-regular fa-circle-right" /> Update your details</Link>
           <Link to="/account/timetable"><i className="fa-regular fa-circle-right" /> View your timetable</Link>
           <Link to="/account/courses"><i className="fa-regular fa-circle-right" /> View your enrolments</Link>
           <Link to="/account/chat"><i className="fa-regular fa-circle-right" /> Get support</Link>
