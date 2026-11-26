@@ -1,7 +1,7 @@
 import Page from "../Components/Page";
 import { Timetable } from "../Components/Timetable";
 
-// Home Page
+// Timetable Page
 
 interface TimetableProps {
   //setAllBooks: React.Dispatch<React.SetStateAction<Book[]>>;
@@ -10,7 +10,8 @@ interface TimetableProps {
 function TimetablePage({ }: TimetableProps) {
   return (
     <Page>
-      <Timetable />
+        <h1>Your timetable</h1>
+        <Timetable />
     </Page>
   );
 };
