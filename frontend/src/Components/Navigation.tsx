@@ -3,7 +3,6 @@ import { useState, useEffect, useRef } from "react";
 import type { NavigationProps } from "@prototype/types";
 import { useAuth } from "../Context/Authentication";
 import icon from "../../public/logo.svg";
-import { Modal } from "./Modal";
 import { logout } from "../Services/Users.service";
 
 function Navigation({ }: NavigationProps) {

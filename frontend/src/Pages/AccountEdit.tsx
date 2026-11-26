@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import Page from "../Components/Page";
 import { useAuth } from "../Context/Authentication";
 import { UpdateForm } from "../Components/UpdateForm";
-import { logout, getAllUsers, requestPasswordReset } from "../Services/Users.service";
+import { logout, requestPasswordReset } from "../Services/Users.service";
 
 type AccountEditPageProps = {
   //isLoggedIn: boolean; 
