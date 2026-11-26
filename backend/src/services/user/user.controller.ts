@@ -28,6 +28,33 @@ export const GET_ALL_USERS = async ( Req: Request, Res: Response ) => {
     }
 }
 
+export const CHECK_AUTHENTICATION = async ( Req: Request, Res: Response ) => {
+    try {
+        if (!Req.user) {
+            return Res.status(401).json({ body: null, success: false });
+        }
+
+        const user = await UserModel.findOne({
+            where: { email: Req.user.email },
+            attributes: { exclude: ["password"] },
+            include: [
+                {
+                    model: RoleModel,
+                    as: "role",
+                }
+            ],
+        });
+
+        if (!user) {
+            return Res.status(404).json({ body: null, success: false });
+        }
+
+        return Res.status(200).json({ body: user, success: true, forceReset: user.must_reset_password });
+    } catch (err) {
+        return Res.status(500).json({ body: null, success: false });
+    }
+}
+
 export const GET_USER = async ( Req: Request, Res: Response ) => {
     try {
         const id = Req.params.id === undefined ? Req.user?.id : Number(Req.params.id);
@@ -59,7 +86,6 @@ export const GET_USER = async ( Req: Request, Res: Response ) => {
 
         return Res.status(200).json({ body: user, success: true })
     } catch (exc) {
-        console.log(exc)
         return Res.status(500).json({ body: null, success: false })
     }
 }

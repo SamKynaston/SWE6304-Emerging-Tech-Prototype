@@ -1,4 +1,4 @@
-import { AUTHENTICATE_USER, CREATE_USER, GET_ALL_USERS, GET_USER, LOGOUT_USER, UPDATE_USER } from "../services/user/user.controller";
+import { AUTHENTICATE_USER, CHECK_AUTHENTICATION, CREATE_USER, GET_ALL_USERS, GET_USER, LOGOUT_USER, UPDATE_USER } from "../services/user/user.controller";
 import { Request, Response, NextFunction } from "express";
 import { UserModel } from "../models/user.model";
 import { authenticateExistingUser, issueUserToken, registerNewUser, updateUser } from "../utils/user";
@@ -132,6 +132,39 @@ describe("User Controller", () => {
                 where: { id: 99 },
             }));
             expect(statusMock).toHaveBeenCalledWith(404);
+            expect(jsonMock).toHaveBeenCalledWith({ body: null, success: false });
+        });
+    });
+
+    describe("CHECK_AUTHENTICATION", () => {
+        it("returns the authenticated user with their role and force-reset state", async () => {
+            const user = {
+                ...mockUsers[1],
+                must_reset_password: true,
+                role: { permissions: [] },
+            };
+            (UserModel.findOne as jest.Mock).mockResolvedValue(user);
+            mockRequest.user = { id: mockUsers[1].id, email: mockUsers[1].email } as NonNullable<Request["user"]>;
+
+            await CHECK_AUTHENTICATION(mockRequest as Request, mockResponse as Response);
+
+            expect(UserModel.findOne).toHaveBeenCalledWith(expect.objectContaining({
+                where: { email: mockUsers[1].email },
+                attributes: { exclude: ["password"] },
+            }));
+            expect(statusMock).toHaveBeenCalledWith(200);
+            expect(jsonMock).toHaveBeenCalledWith({
+                body: user,
+                success: true,
+                forceReset: true,
+            });
+        });
+
+        it("returns 401 when no authenticated user is attached to the request", async () => {
+            await CHECK_AUTHENTICATION(mockRequest as Request, mockResponse as Response);
+
+            expect(UserModel.findOne).not.toHaveBeenCalled();
+            expect(statusMock).toHaveBeenCalledWith(401);
             expect(jsonMock).toHaveBeenCalledWith({ body: null, success: false });
         });
     });

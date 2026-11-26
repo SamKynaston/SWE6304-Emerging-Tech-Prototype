@@ -9,6 +9,7 @@ type AdminAccountPageProps = {
 function AdminAccountPage({ }: AdminAccountPageProps) {
   return (
     <Page requiresAccount={true} requiredPermission={"WRITE_USERS"}>
+      <h1>Account Management</h1>
       <UserTable />
     </Page>
   );

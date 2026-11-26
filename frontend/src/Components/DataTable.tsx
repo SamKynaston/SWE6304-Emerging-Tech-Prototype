@@ -26,7 +26,7 @@ type DataTableProps<T> = {
 // All other props are functions or booleans provided by all children components
 export function DataTable<T>({data, columns, isEditing, renderEditRow, renderCreateRow, onAdd}: DataTableProps<T>) {
   return (
-    <div className="w-full p-4">
+    <>
         <div className="bg-stone-900 text-stone-300 rounded-xl border border-gray-200 overflow-x-auto shadow-sm">
             <table className="min-w-225 w-full leading-normal">
             <thead>
@@ -83,6 +83,6 @@ export function DataTable<T>({data, columns, isEditing, renderEditRow, renderCre
                 )}
             </table>
         </div>
-    </div>
+    </>
   );
 }
