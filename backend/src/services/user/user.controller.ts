@@ -9,7 +9,7 @@ import { RoleModel } from "../../models/role.model";
 import { UserModel } from "../../models/user.model";
 
 // User Utils
-import { registerNewUser, authenticateExistingUser } from "../../utils/user";
+import { registerNewUser, authenticateExistingUser, updateUser, issueUserToken } from "../../utils/user";
 
 export const GET_ALL_USERS = async ( Req: Request, Res: Response ) => {
     try {
@@ -69,7 +69,7 @@ export const CREATE_USER = async ( Req: Request, Res: Response) => {
         const { email, forename, surname, password, dob } = Req.body;
 
         const user: User = await registerNewUser(email, forename, surname, password, dob);
-        const token: String = await authenticateExistingUser(email, password)
+        const token: String | null = await authenticateExistingUser(email, password)
 
         Res.cookie(process.env.SESSION_TOKEN_NAME || "SESSION_TOKEN", token, {
             httpOnly: true,
@@ -116,6 +116,33 @@ export const LOGOUT_USER = async (req: Request, res: Response) => {
 
         // Return a success
         res.status(200).json({ success: true });
+    } catch (err) {
+        res.status(500).json({ success: false });
+    }
+}
+
+export const UPDATE_USER = async (req: Request, res: Response) => {
+    try {
+        if (Array.isArray(req.params.id)) {
+            return res.status(400).json({ success: false });
+        }
+
+        let token = null
+        let targetId = parseInt(req.params.id, 10);
+        const result = await updateUser(targetId, req.body);
+
+        if (result) {
+            token = await issueUserToken(targetId);
+
+            res.cookie(process.env.SESSION_TOKEN_NAME || "SESSION_TOKEN", token, {
+                httpOnly: true,
+                secure: process.env.NODE_ENV === "production",
+                sameSite: "lax", 
+                path: "/",
+            });
+        }
+
+        res.status(200).json({ success: result });
     } catch (err) {
         res.status(500).json({ success: false });
     }

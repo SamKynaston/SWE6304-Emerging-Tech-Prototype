@@ -4,22 +4,51 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
 export const registerNewUser = async (email: string, forename: string, surname: string, password: string, dob: Date) => {
-    // Create the user in the database
-    // NOTE: The model automatically hashes the password upon creation and all future updates
-    const user = await UserModel.create({ email: email, forename: forename, surname: surname, password: password, dob: dob });
-    
-    // Gets the default user role. 
-    const userRole = await RoleModel.findOne({
-        where: { name: "User" },
-    });
+  // Create the user in the database
+  // NOTE: The model automatically hashes the password upon creation and all future updates
+  const user = await UserModel.create({ email: email, forename: forename, surname: surname, password: password, dob: dob });
+  
+  // Gets the default user role. 
+  const userRole = await RoleModel.findOne({
+      where: { name: "User" },
+  });
 
-    // If found, assigns it to the user
-    if (userRole) {
-        await user.setRole(userRole);
-    }
+  // If found, assigns it to the user
+  if (userRole) {
+      await user.setRole(userRole);
+  }
 
-    // Return the user
-    return user;
+  // Return the user
+  return user;
+}
+
+export const issueUserToken = async(targetId: number) => {
+  const user = await UserModel.findByPk(targetId, { attributes: { exclude: ["password"] }});
+
+  if (!user) {
+    return null
+  }
+
+  return jwt.sign({ id: user.id, email: user.email }, process.env.JWT_SECRET!, {
+    expiresIn: "24h",
+  });
+}
+
+export const updateUser = async(targetId: number, toUpdate: { email: string, forename: string, surname: string, dob: Date }) => {
+  const user = await UserModel.findByPk(targetId, { attributes: { exclude: ["password"] }});
+
+  if (!user) {
+    return false
+  }
+
+  if (toUpdate.email) user.email = toUpdate.email;
+  if (toUpdate.forename) user.forename = toUpdate.forename;
+  if (toUpdate.surname) user.surname = toUpdate.surname;
+  if (toUpdate.dob) user.dob = toUpdate.dob;
+
+  await user.save();
+
+  return true
 }
 
 export const authenticateExistingUser = async (email: string, password: string) => {
@@ -51,9 +80,7 @@ export const authenticateExistingUser = async (email: string, password: string) 
   }
 
   // Issue a JWT token that expires in 24 hours.
-  const token = jwt.sign({ id: user.id, email: user.email }, process.env.JWT_SECRET!, {
-    expiresIn: "24h",
-  });
+  const token = await issueUserToken(user.id)
 
   // Return the token.
   return token;

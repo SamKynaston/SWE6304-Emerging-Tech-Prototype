@@ -1,14 +1,16 @@
-import {
-    AUTHENTICATE_USER,
-    CREATE_USER,
-    GET_ALL_USERS,
-    GET_USER,
-    LOGOUT_USER,
-} from "../services/user/user.controller";
-import { Request, Response } from "express";
+import { AUTHENTICATE_USER, CREATE_USER, GET_ALL_USERS, GET_USER, LOGOUT_USER, UPDATE_USER } from "../services/user/user.controller";
+import { Request, Response, NextFunction } from "express";
 import { UserModel } from "../models/user.model";
-import { authenticateExistingUser, registerNewUser } from "../utils/user";
+import { authenticateExistingUser, issueUserToken, registerNewUser, updateUser } from "../utils/user";
 import { UserCreationSchema } from "../services/user/user.schema";
+import { OWNERSHIP_CHECK } from "../middleware/validate.middleware";
+
+jest.mock("../models", () => ({
+    __esModule: true,
+    UserModel: { findOne: jest.fn() },
+    RoleModel: {},
+    PermissionModel: {},
+}));
 
 jest.mock("../models/user.model", () => ({
     __esModule: true,
@@ -30,6 +32,8 @@ jest.mock("../models/role.model", () => ({
 jest.mock("../utils/user", () => ({
     registerNewUser: jest.fn(),
     authenticateExistingUser: jest.fn(),
+    updateUser: jest.fn(),
+    issueUserToken: jest.fn(),
 }));
 
 const mockUsers = [
@@ -166,6 +170,80 @@ describe("User Controller", () => {
         })
     })
 
+    describe("OWNERSHIP_CHECK", () => {
+        let req: Partial<Request>;
+        let res: Partial<Response>;
+        let statusMock: jest.Mock;
+        let jsonMock: jest.Mock;
+        let nextMock: jest.Mock;
+
+        beforeEach(() => {
+            req = { params: {} };
+            statusMock = jest.fn().mockReturnThis();
+            jsonMock = jest.fn();
+            nextMock = jest.fn();
+            res = { status: statusMock, json: jsonMock };
+        });
+
+        it("allows a user to access their own account", async () => {
+            req.params = { id: String(mockUsers[1].id) };
+            req.user = mockUsers[1] as unknown as NonNullable<Request["user"]>;
+
+            await OWNERSHIP_CHECK(req as Request, res as Response, nextMock as NextFunction);
+
+            expect(nextMock).toHaveBeenCalledTimes(1);
+            expect(statusMock).not.toHaveBeenCalled();
+        });
+
+        it("allows an administrator to access another account", async () => {
+            req.params = { id: String(mockUsers[1].id) };
+            req.user = {
+                ...mockUsers[0],
+                role: { permissions: [{ permission_string: "ADMINISTRATOR" }] },
+            } as unknown as NonNullable<Request["user"]>;
+
+            await OWNERSHIP_CHECK(req as Request, res as Response, nextMock as NextFunction);
+
+            expect(nextMock).toHaveBeenCalledTimes(1);
+        });
+
+        it("rejects a user who does not own the account", async () => {
+            req.params = { id: String(mockUsers[1].id) };
+            req.user = {
+                ...mockUsers[0],
+                role: { permissions: [] },
+            } as unknown as NonNullable<Request["user"]>;
+
+            await OWNERSHIP_CHECK(req as Request, res as Response, nextMock as NextFunction);
+
+            expect(nextMock).not.toHaveBeenCalled();
+            expect(statusMock).toHaveBeenCalledWith(403);
+            expect(jsonMock).toHaveBeenCalledWith({
+                success: false,
+                error: "Unauthorised.",
+            });
+        });
+
+        it("rejects a request without an authenticated user", async () => {
+            req.params = { id: String(mockUsers[1].id) };
+
+            await OWNERSHIP_CHECK(req as Request, res as Response, nextMock as NextFunction);
+
+            expect(nextMock).not.toHaveBeenCalled();
+            expect(statusMock).toHaveBeenCalledWith(400);
+        });
+
+        it("rejects an array route id", async () => {
+            req.params = { id: ["0", "1"] };
+            req.user = mockUsers[0] as unknown as NonNullable<Request["user"]>;
+
+            await OWNERSHIP_CHECK(req as Request, res as Response, nextMock as NextFunction);
+
+            expect(nextMock).not.toHaveBeenCalled();
+            expect(statusMock).toHaveBeenCalledWith(400);
+        });
+    });
+
     describe("AUTHENTICATE_USER", () => {
         it("Should authenticate the user, set the session cookie, and return success", async () => {
             (authenticateExistingUser as jest.Mock).mockResolvedValue("test-token");
@@ -227,4 +305,55 @@ describe("User Controller", () => {
             expect(jsonMock).toHaveBeenCalledWith({ success: false });
         });
     });
+
+    describe("UPDATE_USER", () => {
+        it("Should update the requested user and issue a new session token", async () => {
+            (updateUser as jest.Mock).mockResolvedValue(true);
+            (issueUserToken as jest.Mock).mockResolvedValue("test-token");
+            const dob = new Date("1990-01-01T00:00:00.000Z");
+            mockRequest.params = { id: "12" };
+            mockRequest.body = {
+                email: "jane@example.com",
+                forename: "Jane",
+                surname: "Doe",
+                dob,
+            };
+
+            await UPDATE_USER(mockRequest as Request, mockResponse as Response);
+
+            expect(updateUser).toHaveBeenCalledWith(12, mockRequest.body);
+            expect(issueUserToken).toHaveBeenCalledWith(12);
+            expect(cookieMock).toHaveBeenCalledWith(
+                "SESSION_TOKEN",
+                "test-token",
+                expect.objectContaining({ httpOnly: true, path: "/" }),
+            );
+            expect(statusMock).toHaveBeenCalledWith(200);
+            expect(jsonMock).toHaveBeenCalledWith({ success: true });
+        });
+
+        it("Should return success false when the user does not exist", async () => {
+            (updateUser as jest.Mock).mockResolvedValue(false);
+            mockRequest.params = { id: "99" };
+            mockRequest.body = { email: "jane@example.com" };
+
+            await UPDATE_USER(mockRequest as Request, mockResponse as Response);
+
+            expect(updateUser).toHaveBeenCalledWith(99, mockRequest.body);
+            expect(issueUserToken).not.toHaveBeenCalled();
+            expect(cookieMock).not.toHaveBeenCalled();
+            expect(statusMock).toHaveBeenCalledWith(200);
+            expect(jsonMock).toHaveBeenCalledWith({ success: false });
+        });
+
+        it("Should reject an array route id", async () => {
+            mockRequest.params = { id: ["12", "13"] };
+
+            await UPDATE_USER(mockRequest as Request, mockResponse as Response);
+
+            expect(updateUser).not.toHaveBeenCalled();
+            expect(statusMock).toHaveBeenCalledWith(400);
+            expect(jsonMock).toHaveBeenCalledWith({ success: false });
+        });
+    })
 })
