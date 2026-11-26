@@ -63,12 +63,12 @@ export const UpdateForm = ({ id }: UpdateFormType ) => {
                     <input value={dob} onChange={(e) => setDob(e.target.value)} type="date" required={true} aria-label="Date of birth"></input>
                 </span>
 
-                <button type="submit">Confirm</button>
+                <button type="submit">Save changes</button>
             </form>
 
             <ConfirmationModal
                 open={confirmationOpen}
-                text="Save these account changes?"
+                text="Please confirm these changes."
                 onClose={() => setConfirmationOpen(false)}
                 onConfirm={handleConfirm}
             />
