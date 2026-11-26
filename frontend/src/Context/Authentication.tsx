@@ -10,6 +10,7 @@ type AuthContextType = {
   loading: boolean;
   forceReset: boolean;
   isInMaintenanceMode: boolean;
+  isAdmin: boolean;
   hasPermission: (permissionName: string) => boolean;
   refreshUser: () => Promise<void>;
 };
@@ -38,6 +39,7 @@ const AuthContext = createContext<AuthContextType>({
   authenticated: false,
   loading: true,
   forceReset: false,
+  isAdmin: false,
   isInMaintenanceMode: false,
   hasPermission: () => false,
   refreshUser: async () => {},
@@ -48,6 +50,7 @@ export const AuthProvider = ({ children }: any) => {
   const [role, setRole] = useState<Role | null>(null);
   const [authenticated, setAuthenticated] = useState(false);
   const [isInMaintenanceMode, setMaintenanceMode] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
   const [loading, setLoading] = useState(true);
   const [forceReset, setForceReset] = useState(false);
 
@@ -56,8 +59,6 @@ export const AuthProvider = ({ children }: any) => {
   // Function to check if a user has a specified permission, should use the permissionName type but sadly does not.
   const hasPermission = (permissionName: string) => {
     if (!role) return false;
-
-    const isAdmin = role.permissions?.some((p: RolePermission) => p.permission_string === "ADMINISTRATOR");
     if (isAdmin) return true;
 
     return role.permissions?.some((p: RolePermission) => p.permission_string === permissionName)
@@ -77,6 +78,7 @@ export const AuthProvider = ({ children }: any) => {
       setAuthenticated(false);
       setForceReset(false);
       setLoading(false);
+      setIsAdmin(false);
       return;
     }
 
@@ -88,6 +90,7 @@ export const AuthProvider = ({ children }: any) => {
       setAuthenticated(false);
       setForceReset(true);
       setLoading(false);
+      setIsAdmin(false);
       return;
     }
 
@@ -99,6 +102,7 @@ export const AuthProvider = ({ children }: any) => {
       setRole(role)
       setUser(user);
       setAuthenticated(data.success);
+      setIsAdmin(role.permissions?.some((p: RolePermission) => p.permission_string === "ADMINISTRATOR"))
       setForceReset(false);
       setLoading(false);
     }
@@ -127,7 +131,8 @@ export const AuthProvider = ({ children }: any) => {
         setRole(null);
         setAuthenticated(false);
         setForceReset(true);
-
+        setIsAdmin(false);
+        
         return;
       }
 
@@ -145,6 +150,7 @@ export const AuthProvider = ({ children }: any) => {
       setRole(role);
       setUser(data.body);
       setAuthenticated(data.success);
+      setIsAdmin(role.permissions?.some((p: RolePermission) => p.permission_string === "ADMINISTRATOR"))
       setForceReset(false);
     })
     .catch((err) => {
@@ -159,7 +165,7 @@ export const AuthProvider = ({ children }: any) => {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user, role, authenticated, forceReset, loading, isInMaintenanceMode, hasPermission, refreshUser }}>
+    <AuthContext.Provider value={{ user, role, authenticated, forceReset, loading, isAdmin, isInMaintenanceMode, hasPermission, refreshUser }}>
       {children}
     </AuthContext.Provider>
   );
